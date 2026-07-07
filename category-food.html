@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food & Beverage Portfolio | Random Frames</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <meta name="description" content="Explore Food & Beverage photography by Random Frames.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+
+  <script src="./script.js" defer></script>
+</head>
+
+<body>
+
+
+  <!-- Custom Premium Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
+
+  <!-- Cinematic Preloader Curtain -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <span class="preloader-text" id="preloaderText">RANDOM FRAMES</span>
+      <div class="preloader-progress-bar">
+        <div class="preloader-progress" id="preloaderProgress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Wrapper -->
+  <div class="app-container">
+
+    <!-- Navigation Bar -->
+    <header class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon-rf header-rf">
+          <span class="r">R</span><span class="f">F</span>
+        </div>
+        <span class="logo-text">Random Frames</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html#home" class="nav-link">Home</a>
+        <div class="nav-dropdown">
+          <a href="index.html#portfolio" class="nav-link dropdown-toggle active">Our Work <span class="chevron">▼</span></a>
+          <div class="dropdown-menu-container">
+            <div class="dropdown-menu-grid">
+
+              <!-- Food Category -->
+              <a href="category-food.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/Food & Beverage/food-5.webp" alt="Food">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Food</span>
+                  <span class="dropdown-item-desc">Premium menu visuals</span>
+                </div>
+              </a>
+
+              <!-- Cafe Category -->
+              <a href="category-cafe.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <video src="videos/cafe/Video-43.mp4" muted loop autoplay playsinline></video>
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Cafe</span>
+                  <span class="dropdown-item-desc">Atmospheric cafe films</span>
+                </div>
+              </a>
+
+              <!-- Events Category -->
+              <a href="category-events.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/events/IMG_7976.jpg" alt="Events">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Events</span>
+                  <span class="dropdown-item-desc">Unforgettable live coverage</span>
+                </div>
+              </a>
+
+              <!-- Product Category -->
+              <a href="category-product.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/product/Perfume-1.jpg" alt="Product">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Product</span>
+                  <span class="dropdown-item-desc">Luxury commercial shoots</span>
+                </div>
+              </a>
+
+            </div>
+          </div>
+        </div>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="index.html#about" class="nav-link">About</a>
+      </nav>
+
+      <div class="nav-social-icons">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+          class="nav-social-link" aria-label="Instagram" title="Follow on Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <circle cx="12" cy="12" r="4.5" />
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <!-- WhatsApp -->
+        <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+          target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="WhatsApp"
+          title="Chat on WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-links">
+        <a href="index.html#home" class="mobile-nav-link">Home</a>
+        <div class="mobile-dropdown">
+          <button class="mobile-dropdown-toggle active" id="mobileDropdownToggle">Our Work <span
+              class="chevron">▼</span></button>
+          <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+            <a href="category-food.html" class="mobile-dropdown-link">Food</a>
+            <a href="category-cafe.html" class="mobile-dropdown-link">Cafe</a>
+            <a href="category-events.html" class="mobile-dropdown-link">Events</a>
+            <a href="category-product.html" class="mobile-dropdown-link">Product</a>
+          </div>
+        </div>
+        <a href="services.html" class="mobile-nav-link">Services</a>
+        <a href="index.html#about" class="mobile-nav-link">About</a>
+        <div class="mobile-social-icons">
+          <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+            class="mobile-social-link" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4.5" />
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            </svg>
+            <span>Instagram</span>
+          </a>
+          <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+            target="_blank" rel="noopener noreferrer" class="mobile-social-link" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <main>
+
+      <!-- VIDEO MODAL -->
+      <!-- HERO -->
+      <section class="detail-hero">
+        <a href="index.html#portfolio" class="detail-breadcrumb scroll-reveal">← Portfolio</a>
+        <div class="detail-badge scroll-reveal delay-1"><span class="badge-dot"></span><span>Food Photography</span></div>
+        <h1 class="detail-title scroll-reveal delay-2">Food &amp; <em>Beverage</em></h1>
+        <p class="detail-subtitle scroll-reveal delay-3">Premium culinary photography that highlights texture, color, and taste in every single
+          shot.</p>
+      </section>
+
+      <!-- TABS (Only Images) -->
+      <div class="detail-tabs scroll-reveal delay-4">
+        <button class="tab-btn active" data-tab="images">
+          Images
+        </button>
+      </div>
+
+      <!-- GRID -->
+      <section class="detail-grid-section">
+        <div class="detail-grid grid-food" id="imagesGrid">
+
+          <!-- Card 1 -->
+          <div class="detail-card">
+            <img src="images/Food &amp; Beverage/food-2.webp" alt="Culinary Art" class="detail-card-media"
+              loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Culinary Art</div>
+              <div class="detail-card-sub">Restaurant Campaign</div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="detail-card">
+            <img src="images/Food &amp; Beverage/food-3.webp" alt="Fresh Ingredients" class="detail-card-media"
+              loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Fresh Ingredients</div>
+              <div class="detail-card-sub">Organic Brand Shoot</div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="detail-card">
+            <img src="images/Food &amp; Beverage/food-4.webp" alt="Plating Perfection" class="detail-card-media"
+              loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Plating Perfection</div>
+              <div class="detail-card-sub">Fine Dining Series</div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="detail-card">
+            <img src="images/Food &amp; Beverage/food-5.webp" alt="Signature Dish" class="detail-card-media"
+              loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Signature Dish</div>
+              <div class="detail-card-sub">Menu Highlight Shoot</div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="detail-card">
+            <img src="images/Food &amp; Beverage/food-6.webp" alt="Gourmet Details" class="detail-card-media"
+              loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Gourmet Details</div>
+              <div class="detail-card-sub">Artistic Close-ups</div>
+            </div>
+          </div>
+
+          <!-- Card 6: CTA Card -->
+          <a href="index.html#contact" class="cta-detail-card">
+            <div class="cta-detail-title">Start a Project</div>
+            <div class="cta-detail-sub">Ready to add your brand to this list?</div>
+            <div class="btn btn-primary">Get in Touch →</div>
+          </a>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+
+  <div class="back-link-wrapper">
+    <a href="index.html#portfolio" class="back-link">← Back to Portfolio</a>
+  </div>
+  <!-- FOOTER -->
+  <footer class="main-footer"></footer>
+
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Scroll reveal animation
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, idx) => {
+          if (!entry.isIntersecting) return;
+          const c = entry.target;
+          setTimeout(() => c.classList.add('is-visible'), idx * 80);
+          observer.unobserve(c);
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      document.querySelectorAll('.detail-card').forEach(c => observer.observe(c));
+
+      // Mobile menu toggle logic
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileNav = document.getElementById('mobileNav');
+      if (menuToggle && mobileNav) {
+        menuToggle.addEventListener('click', () => {
+          menuToggle.classList.toggle('active');
+          mobileNav.classList.toggle('active');
+          document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+      }
+
+      // Mobile dropdown accordion logic
+      const mobileDropdownToggle = document.getElementById('mobileDropdownToggle');
+      const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+      if (mobileDropdownToggle && mobileDropdownMenu) {
+        mobileDropdownToggle.addEventListener('click', () => {
+          mobileDropdownToggle.classList.toggle('active');
+          mobileDropdownMenu.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+
+  <!-- IMAGE MODAL -->
+  <div class="image-modal" id="imageModal">
+    <div class="image-modal-bg" id="imageModalBg"></div>
+    <div class="image-modal-container">
+      <button class="image-modal-close" id="imageModalClose">✕</button>
+      <img src="" id="modalImage" class="image-modal-content" alt="Enlarged View">
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const imgModal = document.getElementById("imageModal");
+      const imgModalBg = document.getElementById("imageModalBg");
+      const imgModalClose = document.getElementById("imageModalClose");
+      const modalImage = document.getElementById("modalImage");
+
+      if (imgModal && imgModalBg && imgModalClose && modalImage) {
+        const closeImgModal = () => {
+          imgModal.classList.remove("active");
+          setTimeout(() => { modalImage.src = ""; }, 400);
+        };
+
+        imgModalBg.addEventListener("click", closeImgModal);
+        imgModalClose.addEventListener("click", closeImgModal);
+        
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && imgModal.classList.contains("active")) {
+            closeImgModal();
+          }
+        });
+
+        document.querySelectorAll(".detail-card img.detail-card-media").forEach(img => {
+          const card = img.closest(".detail-card");
+          if (card) {
+            card.style.cursor = "zoom-in";
+            card.addEventListener("click", () => {
+              modalImage.src = img.src;
+              imgModal.classList.add("active");
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+
+</html>

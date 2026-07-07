@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events Portfolio | Random Frames</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <meta name="description" content="Explore Event Coverage photography and cinematic reels by Random Frames.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Custom Premium Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
+
+  <!-- Cinematic Preloader Curtain -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <span class="preloader-text" id="preloaderText">RANDOM FRAMES</span>
+      <div class="preloader-progress-bar">
+        <div class="preloader-progress" id="preloaderProgress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Wrapper -->
+  <div class="app-container">
+
+    <!-- Navigation Bar -->
+    <header class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon-rf header-rf">
+          <span class="r">R</span><span class="f">F</span>
+        </div>
+        <span class="logo-text">Random Frames</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html#home" class="nav-link">Home</a>
+        <div class="nav-dropdown">
+          <a href="index.html#portfolio" class="nav-link dropdown-toggle active">Our Work <span
+              class="chevron">▼</span></a>
+          <div class="dropdown-menu-container">
+            <div class="dropdown-menu-grid">
+
+              <!-- Food Category -->
+              <a href="category-food.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/Food & Beverage/food-5.webp" alt="Food">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Food</span>
+                  <span class="dropdown-item-desc">Premium menu visuals</span>
+                </div>
+              </a>
+
+              <!-- Cafe Category -->
+              <a href="category-cafe.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <video src="videos/cafe/Video-43.mp4" muted loop autoplay playsinline></video>
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Cafe</span>
+                  <span class="dropdown-item-desc">Atmospheric cafe films</span>
+                </div>
+              </a>
+
+              <!-- Events Category -->
+              <a href="category-events.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/events/IMG_7976.jpg" alt="Events">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Events</span>
+                  <span class="dropdown-item-desc">Unforgettable live coverage</span>
+                </div>
+              </a>
+
+              <!-- Product Category -->
+              <a href="category-product.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/product/Perfume-1.jpg" alt="Product">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Product</span>
+                  <span class="dropdown-item-desc">Luxury commercial shoots</span>
+                </div>
+              </a>
+
+            </div>
+          </div>
+        </div>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="index.html#about" class="nav-link">About</a>
+      </nav>
+
+      <div class="nav-social-icons">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+          class="nav-social-link" aria-label="Instagram" title="Follow on Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <circle cx="12" cy="12" r="4.5" />
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <!-- WhatsApp -->
+        <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+          target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="WhatsApp"
+          title="Chat on WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-links">
+        <a href="index.html#home" class="mobile-nav-link">Home</a>
+        <div class="mobile-dropdown">
+          <button class="mobile-dropdown-toggle active" id="mobileDropdownToggle">Our Work <span
+              class="chevron">▼</span></button>
+          <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+            <a href="category-food.html" class="mobile-dropdown-link">Food</a>
+            <a href="category-cafe.html" class="mobile-dropdown-link">Cafe</a>
+            <a href="category-events.html" class="mobile-dropdown-link">Events</a>
+            <a href="category-product.html" class="mobile-dropdown-link">Product</a>
+          </div>
+        </div>
+        <a href="services.html" class="mobile-nav-link">Services</a>
+        <a href="index.html#about" class="mobile-nav-link">About</a>
+        <div class="mobile-social-icons">
+          <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+            class="mobile-social-link" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4.5" />
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            </svg>
+            <span>Instagram</span>
+          </a>
+          <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+            target="_blank" rel="noopener noreferrer" class="mobile-social-link" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <main>
+      <!-- HERO -->
+      <section class="detail-hero">
+        <a href="index.html#portfolio" class="detail-breadcrumb scroll-reveal">← Portfolio</a>
+        <div class="detail-badge scroll-reveal delay-1"><span class="badge-dot"></span><span>Events Coverage</span>
+        </div>
+        <h1 class="detail-title scroll-reveal delay-2">Events <em>Coverage</em></h1>
+        <p class="detail-subtitle scroll-reveal delay-3">High-energy live documentation that captures the heart, scale,
+          and emotion of every
+          celebration.</p>
+      </section>
+
+      <!-- TABS (Images and Reels - NO All tab) -->
+      <div class="detail-tabs scroll-reveal delay-4">
+        <button class="tab-btn active" data-tab="images" id="tabImages">
+          Images
+        </button>
+        <button class="tab-btn" data-tab="videos" id="tabReels">
+          <span>▶</span> Reels
+        </button>
+      </div>
+
+      <!-- GRID SECTIONS -->
+      <section class="detail-grid-section">
+
+        <!-- Images Grid (Bento) -->
+        <div class="detail-grid grid-events" id="imagesGrid">
+
+          <!-- Card 1 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_7952.jpg" alt="Crowd Energy" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Crowd Energy</div>
+              <div class="detail-card-sub">Live Concert coverage</div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_7976.jpg" alt="The Moment" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">The Moment</div>
+              <div class="detail-card-sub">Key highlight capture</div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_8456.jpg" alt="Stage Lights" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Stage Lights</div>
+              <div class="detail-card-sub">Stage Photography</div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_8635.jpg" alt="Backstage Access" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Backstage Access</div>
+              <div class="detail-card-sub">Behind the scenes</div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_8879.jpg" alt="Grand Entrance" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Grand Entrance</div>
+              <div class="detail-card-sub">Venue documentation</div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_9132.jpg" alt="The Celebration" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">The Celebration</div>
+              <div class="detail-card-sub">Social event focus</div>
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_9135.jpg" alt="Night of Stars" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Night of Stars</div>
+              <div class="detail-card-sub">Awards ceremony</div>
+            </div>
+          </div>
+
+          <!-- Card 8 -->
+          <div class="detail-card">
+            <img src="images/events/IMG_9457.jpg" alt="Audience Story" class="detail-card-media" loading="lazy">
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Audience Story</div>
+              <div class="detail-card-sub">Guest experience capture</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Videos Grid (Reels) -->
+        <div class="detail-grid layout-reels" id="videosGrid" style="display: none;">
+
+          <!-- Video 1 -->
+          <div class="detail-card" data-video-src="videos/events/Video-251.mp4">
+            <video class="detail-card-media" muted loop preload="metadata" src="videos/events/Video-251.mp4#t=0.001"
+              data-src="videos/events/Video-251.mp4"></video>
+            <div class="detail-card-play">▶</div>
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Highlight Reel</div>
+              <div class="detail-card-sub">Full Event Recap</div>
+            </div>
+          </div>
+
+          <!-- Video 2 -->
+          <div class="detail-card" data-video-src="videos/events/reel-2.mp4">
+            <video class="detail-card-media" muted loop preload="metadata" src="videos/events/reel-2.mp4#t=0.001"
+              data-src="videos/events/reel-2.mp4"></video>
+            <div class="detail-card-play">▶</div>
+            <div class="detail-card-overlay">
+              <div class="detail-card-title">Behind The Scenes</div>
+              <div class="detail-card-sub">Production Crew BTS</div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="back-link-wrapper">
+        <a href="index.html#portfolio" class="back-link">← Back to Portfolio</a>
+      </div>
+      <!-- FOOTER -->
+      <footer class="main-footer"></footer>
+
+      <!-- VIDEO MODAL -->
+      <div class="video-modal" id="videoModal">
+        <div class="video-modal-bg" id="videoModalBg"></div>
+        <div class="video-modal-container" id="videoModalContainer">
+          <button class="video-modal-close" id="videoModalClose">✕</button>
+          <div class="video-player-wrapper" id="videoPlayerWrapper">
+            <video class="video-modal-content" id="modalVideo" playsinline></video>
+            
+            <div class="minimal-controls" id="minimalControls">
+              <button class="minimal-play-btn" id="minimalPlayBtn">▶</button>
+              <div class="minimal-timeline" id="minimalTimeline">
+                <div class="minimal-progress" id="minimalProgress"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Scroll reveal animation
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, idx) => {
+          if (!entry.isIntersecting) return;
+          const c = entry.target;
+          setTimeout(() => c.classList.add('is-visible'), idx * 80);
+          observer.unobserve(c);
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      // Run reveal on initial visible cards
+      document.querySelectorAll('.detail-card').forEach(c => observer.observe(c));
+
+      // Tab toggling logic
+      const tabImagesBtn = document.getElementById('tabImages');
+      const tabReelsBtn = document.getElementById('tabReels');
+      const imagesGrid = document.getElementById('imagesGrid');
+      const videosGrid = document.getElementById('videosGrid');
+
+      tabImagesBtn.addEventListener('click', () => {
+        tabImagesBtn.classList.add('active');
+        tabReelsBtn.classList.remove('active');
+        imagesGrid.style.display = 'grid';
+        videosGrid.style.display = 'none';
+
+        const visibleCards = imagesGrid.querySelectorAll('.detail-card');
+        gsap.fromTo(visibleCards,
+          { opacity: 0, y: 20, scale: 0.98 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.04, ease: 'power3.out' }
+        );
+      });
+
+      tabReelsBtn.addEventListener('click', () => {
+        tabReelsBtn.classList.add('active');
+        tabImagesBtn.classList.remove('active');
+        videosGrid.style.display = 'grid';
+        imagesGrid.style.display = 'none';
+
+        const visibleCards = videosGrid.querySelectorAll('.detail-card');
+        gsap.fromTo(visibleCards,
+          { opacity: 0, y: 20, scale: 0.98 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.04, ease: 'power3.out' }
+        );
+      });
+
+      // Video hover play/pause logic
+      document.querySelectorAll('#videosGrid .detail-card').forEach(card => {
+        const video = card.querySelector('video');
+        if (!video) return;
+
+        const src = card.getAttribute("data-video-src");
+
+        card.addEventListener("mouseenter", () => {
+          video.play().catch(() => { });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          video.pause();
+        });
+
+        card.addEventListener('click', () => {
+          openModal(src);
+        });
+      });
+
+      // Mobile menu toggle logic
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileNav = document.getElementById('mobileNav');
+      if (menuToggle && mobileNav) {
+        menuToggle.addEventListener('click', () => {
+          menuToggle.classList.toggle('active');
+          mobileNav.classList.toggle('active');
+          document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+      }
+
+      // Mobile dropdown accordion logic
+      const mobileDropdownToggle = document.getElementById('mobileDropdownToggle');
+      const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+      if (mobileDropdownToggle && mobileDropdownMenu) {
+        mobileDropdownToggle.addEventListener('click', () => {
+          mobileDropdownToggle.classList.toggle('active');
+          mobileDropdownMenu.classList.toggle('active');
+        });
+      }
+
+      // Modal initialization & player logic
+      function initModal() {
+        const modal = document.getElementById('videoModal');
+        const mv = document.getElementById('modalVideo');
+        const closeBtn = document.getElementById('videoModalClose');
+        const bg = document.getElementById('videoModalBg');
+        const playBtn = document.getElementById('minimalPlayBtn');
+        const timeline = document.getElementById('minimalTimeline');
+        const progress = document.getElementById('minimalProgress');
+        const wrapper = document.getElementById('videoPlayerWrapper');
+
+        if (!modal || !mv || !closeBtn || !bg) return;
+
+        function closeModal() { 
+          modal.classList.remove('active'); 
+          mv.pause(); 
+          mv.src = ''; 
+          document.body.style.overflow = '';
+        }
+        
+        closeBtn.addEventListener('click', closeModal);
+        bg.addEventListener('click', closeModal);
+
+        if (playBtn) {
+          playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (mv.paused) mv.play().catch(() => {});
+            else mv.pause();
+          });
+        }
+
+        if (wrapper) {
+          mv.addEventListener('play', () => {
+            wrapper.classList.add('playing');
+            wrapper.classList.remove('paused');
+            if (playBtn) playBtn.textContent = '⏸';
+          });
+          mv.addEventListener('pause', () => {
+            wrapper.classList.add('paused');
+            wrapper.classList.remove('playing');
+            if (playBtn) playBtn.textContent = '▶';
+          });
+          mv.addEventListener('timeupdate', () => {
+            if (progress && mv.duration) {
+              const p = (mv.currentTime / mv.duration) * 100;
+              progress.style.width = p + '%';
+            }
+          });
+          if (timeline) {
+            timeline.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const rect = timeline.getBoundingClientRect();
+              const pos = (e.clientX - rect.left) / rect.width;
+              if (mv.duration) mv.currentTime = pos * mv.duration;
+            });
+          }
+        }
+        
+        document.addEventListener('keydown', (e) => {
+          if (!modal.classList.contains('active')) return;
+          if (e.key === 'Escape') closeModal();
+        });
+      }
+
+      function openModal(src) {
+        const modal = document.getElementById('videoModal');
+        const mv = document.getElementById('modalVideo');
+        if (!modal || !mv) return;
+
+        mv.src = src;
+        mv.load();
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        mv.play().catch(() => { });
+      }
+
+      initModal();
+    });
+  </script>
+
+  <!-- IMAGE MODAL -->
+  <div class="image-modal" id="imageModal">
+    <div class="image-modal-bg" id="imageModalBg"></div>
+    <div class="image-modal-container">
+      <button class="image-modal-close" id="imageModalClose">✕</button>
+      <img src="" id="modalImage" class="image-modal-content" alt="Enlarged View">
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const imgModal = document.getElementById("imageModal");
+      const imgModalBg = document.getElementById("imageModalBg");
+      const imgModalClose = document.getElementById("imageModalClose");
+      const modalImage = document.getElementById("modalImage");
+
+      if (imgModal && imgModalBg && imgModalClose && modalImage) {
+        const closeImgModal = () => {
+          imgModal.classList.remove("active");
+          setTimeout(() => { modalImage.src = ""; }, 400);
+        };
+
+        imgModalBg.addEventListener("click", closeImgModal);
+        imgModalClose.addEventListener("click", closeImgModal);
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && imgModal.classList.contains("active")) {
+            closeImgModal();
+          }
+        });
+
+        document.querySelectorAll(".detail-card img.detail-card-media").forEach(img => {
+          const card = img.closest(".detail-card");
+          if (card) {
+            card.style.cursor = "zoom-in";
+            card.addEventListener("click", () => {
+              modalImage.src = img.src;
+              imgModal.classList.add("active");
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+
+</html>

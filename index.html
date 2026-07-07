@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Frames | Commercial Video for Brands</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="Random Frames crafts premium commercial video content for startups and emerging brands — turning your vision into cinematic stories that build trust, drive attention, and grow your business.">
+  <meta name="author" content="Random Frames">
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body class="home-page">
+
+  <!-- Custom Premium Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
+
+  <!-- Cinematic Preloader Curtain -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <span class="preloader-text" id="preloaderText">RANDOM FRAMES</span>
+      <div class="preloader-progress-bar">
+        <div class="preloader-progress" id="preloaderProgress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Wrapper -->
+  <div class="app-container">
+
+    <!-- Navigation Bar -->
+    <header class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon-rf header-rf">
+          <span class="r">R</span><span class="f">F</span>
+        </div>
+        <span class="logo-text">Random Frames</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="#home" class="nav-link active">Home</a>
+        <div class="nav-dropdown">
+          <a href="#portfolio" class="nav-link dropdown-toggle">Our Work <span class="chevron">▼</span></a>
+          <div class="dropdown-menu-container">
+            <div class="dropdown-menu-grid">
+
+              <!-- Food Category -->
+              <a href="category-food.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/Food & Beverage/food-5.webp" alt="Food">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Food</span>
+                  <span class="dropdown-item-desc">Premium menu visuals</span>
+                </div>
+              </a>
+
+              <!-- Cafe Category -->
+              <a href="category-cafe.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <video src="videos/cafe/Video-43.mp4" muted loop autoplay playsinline></video>
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Cafe</span>
+                  <span class="dropdown-item-desc">Atmospheric cafe films</span>
+                </div>
+              </a>
+
+              <!-- Events Category -->
+              <a href="category-events.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/events/IMG_7976.jpg" alt="Events">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Events</span>
+                  <span class="dropdown-item-desc">Unforgettable live coverage</span>
+                </div>
+              </a>
+
+              <!-- Product Category -->
+              <a href="category-product.html" class="dropdown-item">
+                <div class="dropdown-item-thumb">
+                  <img src="images/product/Perfume-1.jpg" alt="Product">
+                </div>
+                <div class="dropdown-item-info">
+                  <span class="dropdown-item-title">Product</span>
+                  <span class="dropdown-item-desc">Luxury commercial shoots</span>
+                </div>
+              </a>
+
+            </div>
+          </div>
+        </div>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+
+      <div class="nav-social-icons">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+          class="nav-social-link" aria-label="Instagram" title="Follow on Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <circle cx="12" cy="12" r="4.5" />
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <!-- WhatsApp -->
+        <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+          target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="WhatsApp"
+          title="Chat on WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav">
+      <div class="mobile-nav-links">
+        <a href="#home" class="mobile-nav-link">Home</a>
+        <div class="mobile-dropdown">
+          <button class="mobile-dropdown-toggle" id="mobileDropdownToggle">Our Work <span
+              class="chevron">▼</span></button>
+          <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+            <a href="category-food.html" class="mobile-dropdown-link">Food</a>
+            <a href="category-cafe.html" class="mobile-dropdown-link">Cafe</a>
+            <a href="category-events.html" class="mobile-dropdown-link">Events</a>
+            <a href="category-product.html" class="mobile-dropdown-link">Product</a>
+          </div>
+        </div>
+        <a href="services.html" class="mobile-nav-link">Services</a>
+        <a href="#about" class="mobile-nav-link">About</a>
+        <div class="mobile-social-icons">
+          <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+            class="mobile-social-link" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4.5" />
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            </svg>
+            <span>Instagram</span>
+          </a>
+          <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+            target="_blank" rel="noopener noreferrer" class="mobile-social-link" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero / Cover Section -->
+    <main class="hero-section" id="home">
+      <div class="hero-grid">
+
+        <!-- Left Side: Text Content -->
+        <div class="hero-text-content">
+          <div class="hero-badge" id="heroBadge">
+            <span class="badge-dot"></span>
+            Build · Brand · Boost
+          </div>
+
+          <h1 class="hero-title" id="heroTitle">
+            <span class="anim-line">Your Brand Deserves</span>
+            <span class="anim-line">a Story Worth</span>
+            <span class="anim-line" style="color: red;">Watching.</span>
+          </h1>
+
+          <p class="hero-description" id="heroDescription">
+            At Random Frames, we create visual content that brings your brand to life. From videos and reels to
+            photography, we turn your vision into compelling content that captures attention and creates lasting impact.
+          </p>
+
+          <div class="hero-actions" id="heroActions">
+            <a href="#portfolio" class="btn btn-primary magnetic" data-strength="20">See Our Work</a>
+            <a href="#contact" class="btn btn-secondary magnetic" data-strength="20">Start a Project</a>
+          </div>
+        </div>
+
+        <!-- Right Side: Cinematic Frame -->
+        <div class="hero-media-content" id="heroMediaContainer">
+
+          <!-- Pulsing ambient colour orb behind the stack -->
+          <div class="hero-orb"></div>
+
+          <!-- Ghost / echo card (blurred, rotated opposite) -->
+          <div class="hero-echo-layer" id="heroEchoLayer">
+            <img src="images/hero/MAIN LOGO.png" class="hero-echo-img" id="heroEchoImg" alt="">
+          </div>
+
+          <!-- Main tilted card -->
+          <div class="hero-card-frame image-reveal-wrapper" id="heroRevealWrapper">
+
+            <!-- Viewfinder corner brackets -->
+            <span class="vf-corner vf-tl"></span>
+            <span class="vf-corner vf-tr"></span>
+            <span class="vf-corner vf-bl"></span>
+            <span class="vf-corner vf-br"></span>
+
+            <!-- Curtain for initial page-load reveal -->
+            <div class="image-reveal-curtain"></div>
+
+            <!-- Shutter blades (for transition animation) -->
+            <div class="shutter-overlay" id="shutterOverlay">
+              <div class="shutter-blade"></div>
+              <div class="shutter-blade"></div>
+              <div class="shutter-blade"></div>
+              <div class="shutter-blade"></div>
+              <div class="shutter-blade"></div>
+            </div>
+
+            <!-- Scanner line -->
+            <div class="hero-scanner"></div>
+
+            <!-- Slides -->
+            <div class="hero-slideshow" id="heroSlideshow">
+              <div class="hero-slide active" data-caption="Main Identity">
+                <img src="images/hero/MAIN LOGO.png" alt="Random Frames Main Logo" class="hero-slide-img">
+              </div>
+              <div class="hero-slide" data-caption="Cafe Promo">
+                <img src="images/hero/CAFE PROMO .png" alt="Cafe Promo Commercial" class="hero-slide-img">
+              </div>
+              <div class="hero-slide" data-caption="Event Coverage">
+                <img src="images/hero/EVENT COVERAGE.png" alt="Event Coverage Video" class="hero-slide-img">
+              </div>
+              <div class="hero-slide" data-caption="Real Estate">
+                <img src="images/hero/REAL ESTATE.png" alt="Real Estate Video Production" class="hero-slide-img">
+              </div>
+            </div>
+
+            <!-- Vignette overlay -->
+            <div class="slide-vignette"></div>
+
+
+            <!-- Progress strips -->
+            <div class="slide-progress-strips" id="slideProgressStrips">
+              <div class="slide-strip active" data-index="0"></div>
+              <div class="slide-strip" data-index="1"></div>
+              <div class="slide-strip" data-index="2"></div>
+              <div class="slide-strip" data-index="3"></div>
+            </div>
+          </div><!-- /.hero-card-frame -->
+
+          <!-- Decorative ambient glow -->
+          <div class="hero-ambient-glow"></div>
+        </div><!-- /.hero-media-content -->
+
+
+      </div>
+    </main>
+
+    <!-- ==================== PORTFOLIO SECTION ==================== -->
+    <section class="portfolio-section" id="portfolio">
+
+      <!-- Section Header -->
+      <div class="portfolio-header">
+        <div class="portfolio-header-badge">
+          <span class="badge-dot"></span>
+          Our Work
+        </div>
+
+        <h2 class="portfolio-heading">
+          <span class="portfolio-heading-line">Every Frame,</span>
+          <span class="portfolio-heading-line portfolio-heading-italic">a Statement.</span>
+        </h2>
+
+        <p class="portfolio-subtext">
+          Cinematic content built for brands that want to be unforgettable.
+        </p>
+      </div>
+
+      <!-- Category Cards Grid -->
+      <div class="cat-grid" id="catGrid">
+
+        <!-- Food -->
+        <a href="category-food.html" class="cat-card" id="catFood">
+          <div class="cat-card-media">
+            <img src="images/Food & Beverage/food-5.webp" alt="Food Photography">
+          </div>
+          <div class="cat-card-overlay">
+            <div class="cat-card-body">
+              <div class="cat-card-label">Food &amp; Beverage</div>
+              <h3 class="cat-card-title">Culinary Artistry</h3>
+              <p class="cat-card-desc">Premium menu photography that makes every dish irresistible</p>
+            </div>
+            <div class="cat-card-arrow">↗</div>
+          </div>
+          <div class="cat-card-glow"></div>
+        </a>
+
+        <!-- Cafe -->
+        <a href="category-cafe.html" class="cat-card cat-card--video-bg" id="catCafe">
+          <div class="cat-card-media">
+            <video muted loop autoplay playsinline>
+              <source src="videos/cafe/Video-43.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="cat-card-overlay">
+            <div class="cat-card-body">
+              <div class="cat-card-label">Cafe</div>
+              <h3 class="cat-card-title">Cafe Atmosphere</h3>
+              <p class="cat-card-desc">Cinematic films that capture the soul of your cafe brand</p>
+            </div>
+            <div class="cat-card-arrow">↗</div>
+          </div>
+          <div class="cat-card-glow"></div>
+        </a>
+
+        <!-- Events -->
+        <a href="category-events.html" class="cat-card" id="catEvents">
+          <div class="cat-card-media">
+            <img src="images/events/IMG_7976.jpg" alt="Events Coverage">
+          </div>
+          <div class="cat-card-overlay">
+            <div class="cat-card-body">
+              <div class="cat-card-label">Events</div>
+              <h3 class="cat-card-title">Events Coverage</h3>
+              <p class="cat-card-desc">High-energy live coverage that preserves every unforgettable moment</p>
+            </div>
+            <div class="cat-card-arrow">↗</div>
+          </div>
+          <div class="cat-card-glow"></div>
+        </a>
+
+        <!-- Product -->
+        <a href="category-product.html" class="cat-card cat-card--tall" id="catProduct">
+          <div class="cat-card-media">
+            <img src="images/product/Perfume-1.jpg" alt="Product Shoots">
+          </div>
+          <div class="cat-card-overlay">
+            <div class="cat-card-body">
+              <div class="cat-card-label">Product</div>
+              <h3 class="cat-card-title">Product Storytelling</h3>
+              <p class="cat-card-desc">Luxury commercial shoots that make your product unforgettable</p>
+            </div>
+            <div class="cat-card-arrow">↗</div>
+          </div>
+          <div class="cat-card-glow"></div>
+        </a>
+
+      </div><!-- /cat-grid -->
+
+    </section>
+    <!-- ==================== END PORTFOLIO ==================== -->
+
+
+    <!-- ==================== SERVICES SECTION ==================== -->
+    <section class="services-section" id="services">
+      <div class="services-header">
+        <div class="services-badge scroll-reveal">
+          <span class="badge-dot"></span>
+          What We Do
+        </div>
+        <h2 class="services-heading scroll-reveal delay-1">Our Services</h2>
+        <p class="services-subtext scroll-reveal delay-2">
+          We offer comprehensive visual solutions tailored to elevate your brand's presence and impact.
+        </p>
+      </div>
+
+      <div class="services-grid-home">
+        <!-- Photography -->
+        <div class="service-card-home scroll-reveal delay-1">
+          <div class="luxury-index-home">01</div>
+          <h3 class="service-title-home">Photography</h3>
+          <ul class="service-list-home">
+            <li>Commercial Photography</li>
+            <li>Product Photography</li>
+            <li>Food Photography</li>
+            <li>Interior & Lifestyle</li>
+          </ul>
+        </div>
+
+        <!-- Video Production -->
+        <div class="service-card-home scroll-reveal delay-2">
+          <div class="luxury-index-home">02</div>
+          <h3 class="service-title-home">Video Production</h3>
+          <ul class="service-list-home">
+            <li>Instagram Reels</li>
+            <li>Brand Films</li>
+            <li>Commercial Videos</li>
+            <li>Cinematic Aftermovies</li>
+          </ul>
+        </div>
+
+        <!-- Content Production -->
+        <div class="service-card-home scroll-reveal delay-3">
+          <div class="luxury-index-home">03</div>
+          <h3 class="service-title-home">Monthly Retainers</h3>
+          <ul class="service-list-home">
+            <li>Social Media Creation</li>
+            <li>Monthly Reels & Photos</li>
+            <li>Seasonal Campaigns</li>
+            <li>Content Strategy</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="services-cta-wrap scroll-reveal delay-4">
+        <a href="services.html" class="btn btn-primary">View Full Services</a>
+      </div>
+    </section>
+
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section class="contact-section" id="contact">
+      <div class="contact-container scroll-reveal">
+        <h2 class="contact-title scroll-reveal delay-1">Let's craft something <span
+            class="highlight">extraordinary.</span></h2>
+        <p class="contact-desc scroll-reveal delay-2">Fill out the details below and we'll get back to you immediately.
+        </p>
+
+        <form class="project-form scroll-reveal delay-3" id="projectForm">
+          <div class="form-group">
+            <label for="pName">Name</label>
+            <input type="text" id="pName" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <label for="pPhone">Phone No.</label>
+            <input type="tel" id="pPhone" placeholder="Your Phone Number" required>
+          </div>
+          <div class="form-group">
+            <label for="pEmail">Email ID</label>
+            <input type="email" id="pEmail" placeholder="Your Email Address" required>
+          </div>
+          <div class="form-group">
+            <label for="pReq">Requirement</label>
+            <textarea id="pReq" rows="4" placeholder="Tell us about your project..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit-btn">Send Request</button>
+        </form>
+      </div>
+    </section>
+    <!-- ==================== END CONTACT ==================== -->
+
+  </div>
+
+
+  <!-- Modern Video Lightbox Player Modal -->
+  <div class="video-modal" id="videoModal">
+    <div class="video-modal-bg" id="videoModalBg"></div>
+    <div class="video-modal-container" id="videoModalContainer">
+      <button class="video-modal-close" id="videoModalClose" aria-label="Close Player">✕</button>
+      <div class="video-player-wrapper">
+        <video id="modalVideo" src="" playsinline></video>
+
+        <!-- Premium Controls Overlay -->
+        <div class="player-controls" id="playerControls">
+          <!-- Seeker / Timeline -->
+          <div class="timeline-container" id="timelineContainer">
+            <div class="timeline-slider">
+              <div class="timeline-progress" id="timelineProgress"></div>
+              <div class="timeline-hover" id="timelineHover"></div>
+              <div class="timeline-handle" id="timelineHandle"></div>
+            </div>
+          </div>
+
+          <div class="controls-main">
+            <div class="controls-left">
+              <button class="control-btn" id="playBtn" aria-label="Play/Pause">
+                <svg class="play-icon" viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M8 5v14l11-7z" fill="white" />
+                </svg>
+                <svg class="pause-icon" viewBox="0 0 24 24" width="22" height="22" style="display:none;">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="white" />
+                </svg>
+              </button>
+
+              <div class="volume-container">
+                <button class="control-btn" id="volumeBtn" aria-label="Mute/Unmute">
+                  <svg class="volume-high" viewBox="0 0 24 24" width="20" height="20">
+                    <path
+                      d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                      fill="white" />
+                  </svg>
+                  <svg class="volume-muted" viewBox="0 0 24 24" width="20" height="20" style="display:none;">
+                    <path
+                      d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                      fill="white" />
+                  </svg>
+                </button>
+                <div class="volume-slider-wrap">
+                  <div class="volume-track">
+                    <div class="volume-bar" id="volumeBar"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span class="time-separator">/</span>
+                <span id="durationTime">0:00</span>
+              </div>
+            </div>
+
+            <div class="controls-right">
+              <button class="control-btn speed-toggle" id="speedBtn">1.0x</button>
+              <button class="control-btn" id="fullscreenBtn" aria-label="Toggle Fullscreen">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                    fill="white" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="main-footer">
+    <div class="footer-left scroll-reveal">
+      <a href="index.html" class="footer-logo-wrap">
+        <div class="logo-icon-rf footer-rf">
+          <span class="r">R</span><span class="f">F</span>
+        </div>
+        <span class="footer-logo">RANDOM FRAMES</span>
+      </a>
+    </div>
+    <div class="footer-middle scroll-reveal delay-1">
+      <p class="footer-tagline">Thoughtfully Crafted Imagery & Films for Modern Brands, Spaces & Experiences</p>
+    </div>
+    <div class="footer-right scroll-reveal delay-2">
+      <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+        class="footer-social-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <circle cx="12" cy="12" r="4.5" />
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+        </svg>
+        <span>@random.frames.7</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+
+</html>
