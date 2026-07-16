@@ -808,6 +808,24 @@ function initProjectModal() {
 /* =====================================================
    GLOBAL VIDEO MODAL WITH PLAYLIST
    ===================================================== */
+function applyIntrinsicRatio(video) {
+  if (!video) return;
+  const container = document.getElementById('videoModalContainer');
+  if (!container) return;
+  
+  if (video.readyState >= 1 && video.videoWidth && video.videoHeight) {
+    const ratio = video.videoWidth / video.videoHeight;
+    container.style.setProperty('--dynamic-ratio', ratio);
+  } else {
+    video.addEventListener('loadedmetadata', () => {
+      if (video.videoWidth && video.videoHeight) {
+        const ratio = video.videoWidth / video.videoHeight;
+        container.style.setProperty('--dynamic-ratio', ratio);
+      }
+    }, { once: true });
+  }
+}
+
 let currentPlaylist = [];
 let currentVideoIndex = -1;
 
@@ -816,6 +834,104 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initVideoModal() {
+  if (!document.getElementById('videoModal')) {
+    document.body.insertAdjacentHTML('beforeend', `
+<div class="video-modal" id="videoModal">
+    <div class="video-modal-bg" id="videoModalBg"></div>
+    <div class="video-modal-container" id="videoModalContainer">
+      <button class="video-modal-close" id="videoModalClose" aria-label="Close Player">✕</button>
+      
+      <!-- Playlist Navigation Arrows -->
+      <button class="playlist-nav-btn prev-btn" id="playlistPrevBtn" aria-label="Previous Video">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" fill="white"/>
+        </svg>
+      </button>
+      <button class="playlist-nav-btn next-btn" id="playlistNextBtn" aria-label="Next Video">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="white"/>
+        </svg>
+      </button>
+
+      <div class="video-player-wrapper">
+        <div class="video-carousel-track" id="videoCarouselTrack">
+          <div class="carousel-video-item prev" id="carouselPrev">
+            <video id="modalVideoPrev" playsinline muted loop></video>
+          </div>
+          <div class="carousel-video-item active" id="carouselActive">
+            <div id="videoErrorPlaceholder" class="video-error-placeholder" style="display:none;">Unable to load video.</div>
+            <video id="modalVideo" src="" playsinline></video>
+          </div>
+          <div class="carousel-video-item next" id="carouselNext">
+            <video id="modalVideoNext" playsinline muted loop></video>
+          </div>
+        </div>
+
+        <!-- Premium Controls Overlay -->
+        <div class="player-controls" id="playerControls">
+          <!-- Seeker / Timeline -->
+          <div class="timeline-container" id="timelineContainer">
+            <div class="timeline-slider">
+              <div class="timeline-progress" id="timelineProgress"></div>
+              <div class="timeline-hover" id="timelineHover"></div>
+              <div class="timeline-handle" id="timelineHandle"></div>
+            </div>
+          </div>
+
+          <div class="controls-main">
+            <div class="controls-left">
+              <button class="control-btn" id="playBtn" aria-label="Play/Pause">
+                <svg class="play-icon" viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M8 5v14l11-7z" fill="white" />
+                </svg>
+                <svg class="pause-icon" viewBox="0 0 24 24" width="22" height="22" style="display:none;">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="white" />
+                </svg>
+              </button>
+
+              <div class="volume-container">
+                <button class="control-btn" id="volumeBtn" aria-label="Mute/Unmute">
+                  <svg class="volume-high" viewBox="0 0 24 24" width="20" height="20">
+                    <path
+                      d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                      fill="white" />
+                  </svg>
+                  <svg class="volume-muted" viewBox="0 0 24 24" width="20" height="20" style="display:none;">
+                    <path
+                      d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                      fill="white" />
+                  </svg>
+                </button>
+                <div class="volume-slider-wrap">
+                  <div class="volume-track">
+                    <div class="volume-bar" id="volumeBar"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span class="time-separator">/</span>
+                <span id="durationTime">0:00</span>
+              </div>
+            </div>
+
+            <div class="controls-right">
+              <button class="control-btn speed-toggle" id="speedBtn">1.0x</button>
+              <button class="control-btn" id="fullscreenBtn" aria-label="Toggle Fullscreen">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                    fill="white" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`);
+  }
   const modal = document.getElementById('videoModal');
   const mv = document.getElementById('modalVideo');
   const closeBtn = document.getElementById('videoModalClose');
@@ -831,14 +947,30 @@ function initVideoModal() {
 
   if (!modal || !mv || !closeBtn || !bg) return;
 
-  function closeModal() {
+    function closeModal() {
     modal.classList.remove('active');
+    
     modal.querySelectorAll('.carousel-video-item video').forEach(v => {
       v.pause();
-      v.src = '';
+      v.removeAttribute('src');
+      v.load();
     });
-    if (document.getElementById('modalVideo')) document.getElementById('modalVideo').pause();
+    
+    if (document.getElementById('modalVideo')) {
+      const mv = document.getElementById('modalVideo');
+      mv.pause();
+      mv.removeAttribute('src');
+      mv.load();
+    }
+    
     document.body.style.overflow = '';
+    const container = document.getElementById('videoModalContainer');
+    if (container) {
+      container.style.removeProperty('--dynamic-ratio');
+    }
+    
+    const errorPlaceholder = document.getElementById('videoErrorPlaceholder');
+    if (errorPlaceholder) errorPlaceholder.style.display = 'none';
   }
 
   let isSliding = false;
@@ -870,7 +1002,11 @@ function initVideoModal() {
         
         if (oldPrev) oldPrev.className = 'carousel-video-item next';
         if (oldActive) oldActive.className = 'carousel-video-item prev';
-        if (oldNext) oldNext.className = 'carousel-video-item active';
+                if (oldNext) {
+          oldNext.className = 'carousel-video-item active';
+          const newActiveVid = oldNext.querySelector('video');
+          if (newActiveVid) applyIntrinsicRatio(newActiveVid);
+        }
         
         currentVideoIndex = (currentVideoIndex + 1) % currentPlaylist.length;
         
@@ -923,7 +1059,11 @@ function initVideoModal() {
         const oldActive = track.querySelector('.active');
         const oldNext = track.querySelector('.next');
         
-        if (oldPrev) oldPrev.className = 'carousel-video-item active';
+                if (oldPrev) {
+          oldPrev.className = 'carousel-video-item active';
+          const newActiveVid = oldPrev.querySelector('video');
+          if (newActiveVid) applyIntrinsicRatio(newActiveVid);
+        }
         if (oldActive) oldActive.className = 'carousel-video-item next';
         if (oldNext) oldNext.className = 'carousel-video-item prev';
         
@@ -1063,6 +1203,16 @@ window.openModal = function(src, isAnimating = false) {
   const mvNext = modal ? modal.querySelector('.carousel-video-item.next video') : null;
   if (!modal || !mv) return;
 
+  const errorPlaceholder = document.getElementById('videoErrorPlaceholder');
+  if (errorPlaceholder) errorPlaceholder.style.display = 'none';
+
+    // Apply intrinsic ratio on metadata load
+  applyIntrinsicRatio(mv);
+  
+  mv.addEventListener('error', () => {
+    if (errorPlaceholder) errorPlaceholder.style.display = 'flex';
+  }, { once: true });
+
   // Update current index in playlist
   if (currentPlaylist.length > 0) {
     const idx = currentPlaylist.indexOf(src);
@@ -1072,15 +1222,21 @@ window.openModal = function(src, isAnimating = false) {
       const prevIdx = (currentVideoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
       const nextIdx = (currentVideoIndex + 1) % currentPlaylist.length;
       
-      // Add #t=0.5 to prevent black frames on paused adjacent videos
       const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
       
-      if (mvPrev) mvPrev.src = appendHash(currentPlaylist[prevIdx]);
-      if (mvNext) mvNext.src = appendHash(currentPlaylist[nextIdx]);
+      if (mvPrev) {
+        mvPrev.src = appendHash(currentPlaylist[prevIdx]);
+        mvPrev.load();
+      }
+      if (mvNext) {
+        mvNext.src = appendHash(currentPlaylist[nextIdx]);
+        mvNext.load();
+      }
     }
   }
 
-  mv.src = src;
+  const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
+  mv.src = appendHash(src);
   
   if (!isAnimating) {
     mv.load();
