@@ -185,7 +185,7 @@ body.hovering-link .custom-cursor-follower {
   justify-content: space-between;
   align-items: center;
   padding: 0 6%;
-  z-index: 1000;
+  z-index: 1200;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   background-color: rgba(8, 7, 9, 0.75);
@@ -321,12 +321,24 @@ body:not(.home-page) .navbar {
   display: flex;
   align-items: center;
   gap: 2.5rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease;
+}
+
+body:has(.mobile-nav.open) .nav-menu,
+body:has(.mobile-nav.active) .nav-menu {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .nav-social-icons {
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-left: auto;
+  margin-right: 24px;
 }
 
 .nav-social-link {
@@ -1147,7 +1159,7 @@ body:not(.home-page) .navbar {
 
 /* Mobile Menu Toggle button */
 .mobile-menu-toggle {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 26px;
@@ -1243,9 +1255,14 @@ body:not(.home-page) .navbar {
     height: 80px;
   }
 
-  .nav-menu,
-  .nav-actions {
+  .nav-menu {
     display: none;
+  }
+
+  .nav-social-icons {
+    display: flex;
+    margin-left: auto;
+    margin-right: 16px;
   }
 
   .mobile-menu-toggle {

@@ -322,19 +322,28 @@ function initMobileMenu() {
   if (!toggle || !navOverlay) return;
 
   toggle.addEventListener('click', () => {
-    const isOpen = toggle.classList.toggle('open');
-    navOverlay.classList.toggle('open', isOpen);
-
-    if (isOpen) {
-      gsap.fromTo(links,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.25 }
-      );
-      gsap.fromTo('.btn-mobile-contact',
-        { opacity: 0, scale: 0.85 },
-        { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.5)', delay: 0.65 }
-      );
+    if (toggle.classList.contains('open')) {
+      const isHome = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname.endsWith('/random-frames/');
+      if (isHome) {
+        toggle.classList.remove('open');
+        navOverlay.classList.remove('open');
+      } else {
+        window.location.href = 'index.html';
+      }
+      return;
     }
+
+    toggle.classList.add('open');
+    navOverlay.classList.add('open');
+
+    gsap.fromTo(links,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.25 }
+    );
+    gsap.fromTo('.btn-mobile-contact',
+      { opacity: 0, scale: 0.85 },
+      { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.5)', delay: 0.65 }
+    );
   });
 
   // Close menu when a link is clicked
