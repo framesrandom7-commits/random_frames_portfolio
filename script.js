@@ -788,3 +788,287 @@ function initProjectModal() {
       });
   });
 }
+/* =====================================================
+   GLOBAL VIDEO MODAL WITH PLAYLIST
+   ===================================================== */
+let currentPlaylist = [];
+let currentVideoIndex = -1;
+
+document.addEventListener('DOMContentLoaded', () => {
+  initVideoModal();
+});
+
+function initVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const mv = document.getElementById('modalVideo');
+  const closeBtn = document.getElementById('videoModalClose');
+  const bg = document.getElementById('videoModalBg');
+  
+  const playBtn = document.getElementById('minimalPlayBtn') || document.getElementById('playBtn');
+  const timeline = document.getElementById('minimalTimeline') || document.getElementById('timelineContainer');
+  const progress = document.getElementById('minimalProgress') || document.getElementById('timelineProgress');
+  const wrapper = document.getElementById('videoPlayerWrapper');
+
+  const prevBtn = document.getElementById('playlistPrevBtn');
+  const nextBtn = document.getElementById('playlistNextBtn');
+
+  if (!modal || !mv || !closeBtn || !bg) return;
+
+  function closeModal() {
+    modal.classList.remove('active');
+    modal.querySelectorAll('.carousel-video-item video').forEach(v => {
+      v.pause();
+      v.src = '';
+    });
+    if (document.getElementById('modalVideo')) document.getElementById('modalVideo').pause();
+    document.body.style.overflow = '';
+  }
+
+  let isSliding = false;
+
+  function playNext() {
+    if (currentPlaylist.length <= 1 || isSliding) return;
+    const track = document.getElementById('videoCarouselTrack');
+    
+    if (track) {
+      isSliding = true;
+      track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      track.classList.add('sliding-next');
+      
+      const oldNext = track.querySelector('.next');
+      if (oldNext) {
+        const nextVid = oldNext.querySelector('video');
+        if (nextVid) nextVid.play().catch(() => {});
+      }
+      
+      setTimeout(() => {
+        track.style.transition = 'none';
+        const items = track.querySelectorAll('.carousel-video-item');
+        items.forEach(item => item.style.transition = 'none');
+        
+        track.classList.remove('sliding-next');
+        
+        const oldPrev = track.querySelector('.prev');
+        const oldActive = track.querySelector('.active');
+        
+        if (oldPrev) oldPrev.className = 'carousel-video-item next';
+        if (oldActive) oldActive.className = 'carousel-video-item prev';
+        if (oldNext) oldNext.className = 'carousel-video-item active';
+        
+        currentVideoIndex = (currentVideoIndex + 1) % currentPlaylist.length;
+        
+        if (oldActive) {
+          const outgoingVideo = oldActive.querySelector('video');
+          if (outgoingVideo) outgoingVideo.pause();
+        }
+        
+        if (oldPrev) {
+          const newNextVideo = oldPrev.querySelector('video');
+          if (newNextVideo) {
+            const nextIdx = (currentVideoIndex + 1) % currentPlaylist.length;
+            const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
+            newNextVideo.src = appendHash(currentPlaylist[nextIdx]);
+          }
+        }
+        
+        void track.offsetWidth;
+        items.forEach(item => item.style.transition = '');
+        isSliding = false;
+      }, 400);
+    } else {
+      currentVideoIndex = (currentVideoIndex + 1) % currentPlaylist.length;
+      window.openModal(currentPlaylist[currentVideoIndex]);
+    }
+  }
+
+  function playPrev() {
+    if (currentPlaylist.length <= 1 || isSliding) return;
+    const track = document.getElementById('videoCarouselTrack');
+    
+    if (track) {
+      isSliding = true;
+      track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      track.classList.add('sliding-prev');
+      
+      const oldPrev = track.querySelector('.prev');
+      if (oldPrev) {
+        const prevVid = oldPrev.querySelector('video');
+        if (prevVid) prevVid.play().catch(() => {});
+      }
+      
+      setTimeout(() => {
+        track.style.transition = 'none';
+        const items = track.querySelectorAll('.carousel-video-item');
+        items.forEach(item => item.style.transition = 'none');
+        
+        track.classList.remove('sliding-prev');
+        
+        const oldActive = track.querySelector('.active');
+        const oldNext = track.querySelector('.next');
+        
+        if (oldPrev) oldPrev.className = 'carousel-video-item active';
+        if (oldActive) oldActive.className = 'carousel-video-item next';
+        if (oldNext) oldNext.className = 'carousel-video-item prev';
+        
+        currentVideoIndex = (currentVideoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+        
+        if (oldActive) {
+          const outgoingVideo = oldActive.querySelector('video');
+          if (outgoingVideo) outgoingVideo.pause();
+        }
+        
+        if (oldNext) {
+          const newPrevVideo = oldNext.querySelector('video');
+          if (newPrevVideo) {
+            const prevIdx = (currentVideoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+            const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
+            newPrevVideo.src = appendHash(currentPlaylist[prevIdx]);
+          }
+        }
+        
+        void track.offsetWidth;
+        items.forEach(item => item.style.transition = '');
+        isSliding = false;
+      }, 400);
+    } else {
+      currentVideoIndex = (currentVideoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+      window.openModal(currentPlaylist[currentVideoIndex]);
+    }
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); playPrev(); });
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); playNext(); });
+
+  mv.addEventListener('ended', () => {
+    playNext();
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  bg.addEventListener('click', closeModal);
+
+  if (playBtn) {
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const activeVideo = modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo');
+      if (!activeVideo) return;
+      if (activeVideo.paused) activeVideo.play().catch(() => { });
+      else activeVideo.pause();
+    });
+  }
+
+  if (wrapper) {
+    const allModalVideos = modal.querySelectorAll('.carousel-video-item video');
+    const vidsToBind = allModalVideos.length > 0 ? Array.from(allModalVideos) : [document.getElementById('modalVideo')].filter(Boolean);
+    
+    vidsToBind.forEach(vid => {
+      vid.addEventListener('play', (e) => {
+        if (e.target.parentElement && e.target.parentElement.classList.contains('carousel-video-item') && !e.target.parentElement.classList.contains('active')) return;
+        wrapper.classList.add('playing');
+        wrapper.classList.remove('paused');
+        if (playBtn) {
+          if (playBtn.id === 'minimalPlayBtn') {
+            playBtn.textContent = '⏸';
+          } else {
+            const pIcon = playBtn.querySelector('.play-icon');
+            const psIcon = playBtn.querySelector('.pause-icon');
+            if (pIcon) pIcon.style.display = 'none';
+            if (psIcon) psIcon.style.display = 'block';
+          }
+        }
+      });
+      vid.addEventListener('pause', (e) => {
+        if (e.target.parentElement && e.target.parentElement.classList.contains('carousel-video-item') && !e.target.parentElement.classList.contains('active')) return;
+        wrapper.classList.add('paused');
+        wrapper.classList.remove('playing');
+        if (playBtn) {
+          if (playBtn.id === 'minimalPlayBtn') {
+            playBtn.textContent = '▶';
+          } else {
+            const pIcon = playBtn.querySelector('.play-icon');
+            const psIcon = playBtn.querySelector('.pause-icon');
+            if (pIcon) pIcon.style.display = 'block';
+            if (psIcon) psIcon.style.display = 'none';
+          }
+        }
+      });
+      vid.addEventListener('timeupdate', (e) => {
+        if (e.target.parentElement && e.target.parentElement.classList.contains('carousel-video-item') && !e.target.parentElement.classList.contains('active')) return;
+        if (progress && e.target.duration) {
+          const p = (e.target.currentTime / e.target.duration) * 100;
+          progress.style.width = p + '%';
+        }
+      });
+    });
+
+    if (timeline) {
+      timeline.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const activeVideo = modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo');
+        if (!activeVideo) return;
+        const rect = timeline.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        if (activeVideo.duration) activeVideo.currentTime = pos * activeVideo.duration;
+      });
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('active')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowRight') playNext();
+    if (e.key === 'ArrowLeft') playPrev();
+  });
+
+  // Build the playlist from all videos on the page
+  buildPlaylist();
+}
+
+function buildPlaylist() {
+  currentPlaylist = [];
+  document.querySelectorAll('.detail-card, .bento-item, .reel-item').forEach((card) => {
+    // Collect src from data attribute, or directly from video if missing
+    let src = card.getAttribute("data-video-src");
+    if (!src) {
+      const vid = card.querySelector('video');
+      if (vid) src = vid.getAttribute('src');
+    }
+    if (src && !currentPlaylist.includes(src)) {
+      currentPlaylist.push(src);
+    }
+  });
+}
+
+// Global openModal function
+window.openModal = function(src, isAnimating = false) {
+  const modal = document.getElementById('videoModal');
+  const mv = modal ? modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo') : null;
+  const mvPrev = modal ? modal.querySelector('.carousel-video-item.prev video') : null;
+  const mvNext = modal ? modal.querySelector('.carousel-video-item.next video') : null;
+  if (!modal || !mv) return;
+
+  // Update current index in playlist
+  if (currentPlaylist.length > 0) {
+    const idx = currentPlaylist.indexOf(src);
+    if (idx !== -1) {
+      currentVideoIndex = idx;
+      
+      const prevIdx = (currentVideoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+      const nextIdx = (currentVideoIndex + 1) % currentPlaylist.length;
+      
+      // Add #t=0.5 to prevent black frames on paused adjacent videos
+      const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
+      
+      if (mvPrev) mvPrev.src = appendHash(currentPlaylist[prevIdx]);
+      if (mvNext) mvNext.src = appendHash(currentPlaylist[nextIdx]);
+    }
+  }
+
+  mv.src = src;
+  
+  if (!isAnimating) {
+    mv.load();
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  mv.play().catch(() => { });
+};

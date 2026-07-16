@@ -124,7 +124,7 @@
           </svg>
         </a>
         <!-- WhatsApp -->
-        <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+        <a href="https://wa.me/918073080077?text=Hi%2C%0A%0AWelcome%20to%20Random%20Frames%20by%20Savan!%0A%0AThank%20you%20for%20reaching%20out.%0A%0AWe%20specialize%20in%3A%0A%0A-%20Caf%C3%A9%20%26%20Hospitality%0A-%20Real%20Estate%0A-%20Event%20Coverage%0A-%20Brand%20%26%20Product%20Shoots%0A%0ATell%20us%20about%20your%20project%2C%20and%20we'll%20help%20you%20choose%20the%20right%20service."
           target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="WhatsApp"
           title="Chat on WhatsApp">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -171,7 +171,7 @@
             </svg>
             <span>Instagram</span>
           </a>
-          <a href="https://wa.me/919886688047?text=Hi%20Random%20Frames!%20I%27d%20love%20to%20discuss%20a%20project%20with%20you."
+          <a href="https://wa.me/918073080077?text=Hi%2C%0A%0AWelcome%20to%20Random%20Frames%20by%20Savan!%0A%0AThank%20you%20for%20reaching%20out.%0A%0AWe%20specialize%20in%3A%0A%0A-%20Caf%C3%A9%20%26%20Hospitality%0A-%20Real%20Estate%0A-%20Event%20Coverage%0A-%20Brand%20%26%20Product%20Shoots%0A%0ATell%20us%20about%20your%20project%2C%20and%20we'll%20help%20you%20choose%20the%20right%20service."
             target="_blank" rel="noopener noreferrer" class="mobile-social-link" aria-label="WhatsApp">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
               <path
@@ -460,11 +460,11 @@
         <form class="project-form scroll-reveal delay-3" id="projectForm">
           <div class="form-group">
             <label for="pName">Name</label>
-            <input type="text" id="pName" placeholder="Your Name" required>
+            <input type="text" id="pName" placeholder="Your Name" pattern="[A-Za-z\s]+" title="Please enter a valid name (letters and spaces only)." oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" required>
           </div>
           <div class="form-group">
             <label for="pPhone">Phone No.</label>
-            <input type="tel" id="pPhone" placeholder="Your Phone Number" required>
+            <input type="tel" id="pPhone" placeholder="Your Phone Number" pattern="[0-9]{10}" minlength="10" maxlength="10" title="Please enter exactly 10 digits." oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
           </div>
           <div class="form-group">
             <label for="pEmail">Email ID</label>
@@ -488,8 +488,31 @@
     <div class="video-modal-bg" id="videoModalBg"></div>
     <div class="video-modal-container" id="videoModalContainer">
       <button class="video-modal-close" id="videoModalClose" aria-label="Close Player">✕</button>
+      
+      <!-- Playlist Navigation Arrows -->
+      <button class="playlist-nav-btn prev-btn" id="playlistPrevBtn" aria-label="Previous Video">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" fill="white"/>
+        </svg>
+      </button>
+      <button class="playlist-nav-btn next-btn" id="playlistNextBtn" aria-label="Next Video">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="white"/>
+        </svg>
+      </button>
+
       <div class="video-player-wrapper">
-        <video id="modalVideo" src="" playsinline></video>
+        <div class="video-carousel-track" id="videoCarouselTrack">
+          <div class="carousel-video-item prev" id="carouselPrev">
+            <video id="modalVideoPrev" playsinline muted loop></video>
+          </div>
+          <div class="carousel-video-item active" id="carouselActive">
+            <video id="modalVideo" src="" playsinline></video>
+          </div>
+          <div class="carousel-video-item next" id="carouselNext">
+            <video id="modalVideoNext" playsinline muted loop></video>
+          </div>
+        </div>
 
         <!-- Premium Controls Overlay -->
         <div class="player-controls" id="playerControls">
