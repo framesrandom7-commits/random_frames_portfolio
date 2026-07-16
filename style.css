@@ -3511,6 +3511,43 @@ body:has(.mobile-nav.active) .nav-menu {
   .contact-section {
     padding: 60px 5% !important;
   }
+
+  /* Carousel Mobile Optimization */
+  /* Mobile Video Player Optimization & iOS Fix */
+  .carousel-video-item {
+    width: 95vw !important;
+    height: calc(95vw * 16 / 9) !important;
+    max-height: 85vh !important;
+    max-width: calc(85vh * 9 / 16) !important;
+    aspect-ratio: 9 / 16 !important;
+  }
+
+  .carousel-video-item video,
+  .carousel-video-item.active video {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 12px !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
+  
+  /* Hide carousel side videos on mobile */
+  .carousel-video-item.prev,
+  .carousel-video-item.next {
+    display: none !important;
+  }
+  
+  /* Hide next/prev arrow buttons on mobile */
+  .playlist-nav-btn {
+    display: none !important;
+  }
+  
+  /* Reset track transform so it doesn't try to slide */
+  .video-carousel-track {
+    transform: none !important;
+  }
 }
 
 @media (max-width: 480px) {

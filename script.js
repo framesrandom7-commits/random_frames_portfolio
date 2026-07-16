@@ -22,8 +22,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Slideshow
   initHeroSlideshow();
+
+  // Initialize Global Video Hover
+  initVideoHover();
 });
 
+function initVideoHover() {
+  document.querySelectorAll('.detail-card, .video-card').forEach(card => {
+    const video = card.querySelector('video');
+    if (!video) return;
+
+    card.addEventListener('mouseenter', () => {
+      video.play().catch(() => {});
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      video.pause();
+    });
+  });
+}
 
 /* 1. Split Text Utility */
 function initSplitText() {
