@@ -2025,7 +2025,7 @@ body:has(.mobile-nav.active) .nav-menu {
   pointer-events: none;
 }
 
-.video-modal:hover .playlist-nav-btn {
+.video-modal-container:hover .playlist-nav-btn {
   opacity: 1;
   pointer-events: auto;
 }
