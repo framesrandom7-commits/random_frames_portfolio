@@ -124,6 +124,88 @@ class ReelControlsManager {
   }
 }
 
+class ReelAudioManager {
+  constructor(volumeBtnElement, volumeBarElement) {
+    this.volumeBtn = volumeBtnElement;
+    this.volumeBar = volumeBarElement;
+    
+    this.muted = sessionStorage.getItem('reelMuted') === 'false' ? false : true;
+    this.volume = parseFloat(sessionStorage.getItem('reelVolume'));
+    if (isNaN(this.volume)) this.volume = 1.0;
+    
+    this.lastVolume = parseFloat(sessionStorage.getItem('reelLastVolume'));
+    if (isNaN(this.lastVolume)) this.lastVolume = 1.0;
+    
+    this.activeVideo = null;
+  }
+
+  savePreference() {
+    sessionStorage.setItem('reelMuted', this.muted);
+    sessionStorage.setItem('reelVolume', this.volume);
+    sessionStorage.setItem('reelLastVolume', this.lastVolume);
+  }
+
+  setMuted(isMuted) {
+    this.muted = isMuted;
+    if (this.muted && this.volume > 0) {
+      this.lastVolume = this.volume;
+      this.volume = 0;
+    } else if (!this.muted && this.volume === 0) {
+      this.volume = this.lastVolume || 1.0;
+    }
+    this.savePreference();
+    if (this.activeVideo) {
+      this.activeVideo.muted = this.muted;
+      this.activeVideo.volume = this.volume;
+    }
+    this.updateUI();
+  }
+
+  toggleMute() {
+    this.setMuted(!this.muted);
+  }
+
+  setVolume(value) {
+    let val = Math.max(0, Math.min(1, value));
+    this.volume = val;
+    this.muted = (val === 0);
+    if (!this.muted) {
+      this.lastVolume = val;
+    }
+    this.savePreference();
+    if (this.activeVideo) {
+      this.activeVideo.muted = this.muted;
+      this.activeVideo.volume = this.volume;
+    }
+    this.updateUI();
+  }
+
+  syncAudioState(videoElement) {
+    this.activeVideo = videoElement;
+    if (this.activeVideo) {
+      this.activeVideo.muted = this.muted;
+      this.activeVideo.volume = this.volume;
+    }
+    this.updateUI();
+  }
+
+  updateUI() {
+    if (!this.volumeBtn) return;
+    const vHigh = this.volumeBtn.querySelector('.volume-high');
+    const vMuted = this.volumeBtn.querySelector('.volume-muted');
+    
+    if (this.muted || this.volume === 0) {
+      if (vHigh) vHigh.style.display = 'none';
+      if (vMuted) vMuted.style.display = 'block';
+      if (this.volumeBar) this.volumeBar.style.width = '0%';
+    } else {
+      if (vHigh) vHigh.style.display = 'block';
+      if (vMuted) vMuted.style.display = 'none';
+      if (this.volumeBar) this.volumeBar.style.width = (this.volume * 100) + '%';
+    }
+  }
+}
+
 // Global Interaction Detection
 ['scroll', 'touchstart', 'click'].forEach(evt => {
   window.addEventListener(evt, () => {
@@ -1082,6 +1164,28 @@ function initVideoModal() {
   const modalContainer = document.getElementById('videoModalContainer');
   window.currentReelControlsManager = new ReelControlsManager(modalContainer, interactives);
   window.currentReelControlsManager.transitionTo('Opening');
+  
+  const volumeBtn = document.getElementById('volumeBtn');
+  const volumeBar = document.getElementById('volumeBar');
+  const volumeTrack = document.querySelector('.volume-track');
+  
+  window.currentReelAudioManager = new ReelAudioManager(volumeBtn, volumeBar);
+  
+  if (volumeBtn) {
+    volumeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.currentReelAudioManager.toggleMute();
+    });
+  }
+  
+  if (volumeTrack) {
+    volumeTrack.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const rect = volumeTrack.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      window.currentReelAudioManager.setVolume(pos);
+    });
+  }
 
 
   // Hook into video play/pause
@@ -1162,7 +1266,10 @@ function initVideoModal() {
         if (oldNext) {
           oldNext.className = 'carousel-video-item active';
           const newActiveVid = oldNext.querySelector('video');
-          if (newActiveVid) applyIntrinsicRatio(newActiveVid);
+          if (newActiveVid) {
+            window.currentReelAudioManager?.syncAudioState(newActiveVid);
+            applyIntrinsicRatio(newActiveVid);
+          }
         }
 
         currentVideoIndex = (currentVideoIndex + 1) % currentPlaylist.length;
@@ -1219,7 +1326,10 @@ function initVideoModal() {
         if (oldPrev) {
           oldPrev.className = 'carousel-video-item active';
           const newActiveVid = oldPrev.querySelector('video');
-          if (newActiveVid) applyIntrinsicRatio(newActiveVid);
+          if (newActiveVid) {
+            window.currentReelAudioManager?.syncAudioState(newActiveVid);
+            applyIntrinsicRatio(newActiveVid);
+          }
         }
         if (oldActive) oldActive.className = 'carousel-video-item next';
         if (oldNext) oldNext.className = 'carousel-video-item prev';
@@ -1271,59 +1381,6 @@ function initVideoModal() {
   }
 
 
-  // Volume Controls Logic
-  const volumeBtn = document.getElementById('volumeBtn');
-  const volumeTrack = document.querySelector('.volume-track');
-  const volumeBar = document.getElementById('volumeBar');
-
-  if (volumeBtn) {
-    volumeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const activeVideo = modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo');
-      if (!activeVideo) return;
-      activeVideo.muted = !activeVideo.muted;
-
-      const vHigh = volumeBtn.querySelector('.volume-high');
-      const vMuted = volumeBtn.querySelector('.volume-muted');
-
-      if (activeVideo.muted || activeVideo.volume === 0) {
-        if (vHigh) vHigh.style.display = 'none';
-        if (vMuted) vMuted.style.display = 'block';
-        if (volumeBar) volumeBar.style.width = '0%';
-      } else {
-        if (vHigh) vHigh.style.display = 'block';
-        if (vMuted) vMuted.style.display = 'none';
-        if (volumeBar) volumeBar.style.width = (activeVideo.volume * 100) + '%';
-      }
-    });
-  }
-
-  if (volumeTrack) {
-    volumeTrack.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const activeVideo = modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo');
-      if (!activeVideo) return;
-
-      const rect = volumeTrack.getBoundingClientRect();
-      let pos = (e.clientX - rect.left) / rect.width;
-      pos = Math.max(0, Math.min(1, pos));
-
-      activeVideo.volume = pos;
-      activeVideo.muted = pos === 0;
-
-      const vHigh = volumeBtn.querySelector('.volume-high');
-      const vMuted = volumeBtn.querySelector('.volume-muted');
-      if (activeVideo.muted) {
-        if (vHigh) vHigh.style.display = 'none';
-        if (vMuted) vMuted.style.display = 'block';
-      } else {
-        if (vHigh) vHigh.style.display = 'block';
-        if (vMuted) vMuted.style.display = 'none';
-      }
-
-      if (volumeBar) volumeBar.style.width = (pos * 100) + '%';
-    });
-  }
 
 
   if (wrapper) {
@@ -1475,6 +1532,9 @@ window.openModal = function (src, isAnimating = false) {
 
   const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
   mv.src = appendHash(src);
+  if (window.currentReelAudioManager) {
+    window.currentReelAudioManager.syncAudioState(mv);
+  }
 
   if (!isAnimating) {
     mv.load();
