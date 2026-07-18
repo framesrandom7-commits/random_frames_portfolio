@@ -2017,10 +2017,17 @@ body:has(.mobile-nav.active) .nav-menu {
   align-items: center;
   cursor: pointer;
   z-index: 100001; /* Above modal bg */
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease;
   color: white;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.video-modal:hover .playlist-nav-btn {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .playlist-nav-btn:hover {
@@ -2067,7 +2074,7 @@ body:has(.mobile-nav.active) .nav-menu {
   align-items: center;
   z-index: 10;
   backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.3s ease;
 }
 
 .video-modal-close:hover {
@@ -2368,6 +2375,38 @@ body:has(.mobile-nav.active) .nav-menu {
 
 .timeline-container:hover .timeline-handle {
   transform: translate(-50%, -50%) scale(1);
+}
+
+/* Premium Custom Controls Overlay */
+.player-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 60px 30px 25px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: auto;
+}
+
+.video-modal-container.idle .player-controls,
+.video-modal-container.idle .playlist-nav-btn,
+.video-modal-container.idle .video-modal-close {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 768px) {
+  .player-controls {
+    padding: 40px 15px 15px;
+    gap: 10px;
+  }
 }
 
 /* Controls Bar Row */
@@ -2933,7 +2972,7 @@ body:has(.mobile-nav.active) .nav-menu {
   font-size: 0.8rem;
   color: #fff;
   backdrop-filter: blur(8px);
-  transition: transform 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease, opacity 0.4s ease;
   z-index: 3;
 }
 
@@ -2942,6 +2981,17 @@ body:has(.mobile-nav.active) .nav-menu {
   background: var(--accent-red);
   border-color: transparent;
   box-shadow: 0 0 16px var(--accent-red-glow);
+}
+
+@media (max-width: 768px) {
+  .detail-card-play {
+    opacity: 0;
+  }
+  body.user-interacted .detail-card-play,
+  .detail-card:active .detail-card-play,
+  .detail-card.is-visible .detail-card-play {
+    opacity: 1;
+  }
 }
 
 /* Footer section */

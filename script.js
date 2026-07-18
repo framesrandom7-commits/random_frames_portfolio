@@ -1,3 +1,138 @@
+class ReelControlsManager {
+  constructor(containerElement, interactiveElements = []) {
+    this.container = containerElement;
+    this.interactiveElements = interactiveElements;
+    this.timer = null;
+    this.state = 'Closed';
+    this.IDLE_TIMEOUT = 500;
+
+    this.handleInteraction = this.handleInteraction.bind(this);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
+
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    if (this.container) {
+      this.container.addEventListener('mousemove', this.handleInteraction);
+      this.container.addEventListener('mouseenter', this.handleInteraction);
+      this.container.addEventListener('mouseleave', this.handleInteraction);
+      this.container.addEventListener('click', this.handleInteraction);
+      this.container.addEventListener('touchstart', this.handleInteraction, { passive: true });
+      this.container.addEventListener('touchmove', this.handleInteraction, { passive: true });
+      this.container.addEventListener('keydown', this.handleKeydown);
+      this.container.addEventListener('focusin', this.handleInteraction);
+    }
+  }
+
+  transitionTo(newState) {
+    if (this.state === 'Closed' && newState !== 'Opening') return;
+    this.state = newState;
+    this.evaluate();
+  }
+
+  handleVisibilityChange() {
+    if (document.hidden) {
+      this.clearTimer();
+      this.showControls();
+    } else {
+      this.evaluate();
+    }
+  }
+
+  handleInteraction(e) {
+    if (this.state === 'Closed') return;
+    this.showControls();
+    this.startTimerIfApplicable();
+  }
+
+  handleKeydown(e) {
+    if (this.state === 'Closed') return;
+    const wakeKeys = ['Tab', 'Escape', 'ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', ' ', 'Enter'];
+    if (wakeKeys.includes(e.key) || e.shiftKey) {
+      this.showControls();
+      this.startTimerIfApplicable();
+    }
+  }
+
+  evaluate() {
+    switch (this.state) {
+      case 'Opening':
+      case 'Paused':
+      case 'Buffering':
+      case 'Seeking':
+      case 'Ended':
+      case 'Error':
+        this.clearTimer();
+        this.showControls();
+        break;
+      case 'Playing':
+        this.showControls();
+        this.startTimerIfApplicable();
+        break;
+      case 'Closed':
+        this.clearTimer();
+        break;
+    }
+  }
+
+  startTimerIfApplicable() {
+    this.clearTimer();
+    if (this.state === 'Playing' && !document.hidden) {
+      this.timer = setTimeout(() => {
+        this.hideControls();
+      }, this.IDLE_TIMEOUT);
+    }
+  }
+
+  clearTimer() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+  }
+
+  showControls() {
+    if (this.container) {
+      this.container.classList.remove('idle');
+    }
+    this.interactiveElements.forEach(el => {
+      if (el) el.removeAttribute('tabindex');
+    });
+  }
+
+  hideControls() {
+    if (this.container) {
+      this.container.classList.add('idle');
+    }
+    this.interactiveElements.forEach(el => {
+      if (el) el.setAttribute('tabindex', '-1');
+    });
+  }
+
+  destroy() {
+    this.transitionTo('Closed');
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    if (this.container) {
+      this.container.removeEventListener('mousemove', this.handleInteraction);
+      this.container.removeEventListener('mouseenter', this.handleInteraction);
+      this.container.removeEventListener('mouseleave', this.handleInteraction);
+      this.container.removeEventListener('click', this.handleInteraction);
+      this.container.removeEventListener('touchstart', this.handleInteraction);
+      this.container.removeEventListener('touchmove', this.handleInteraction);
+      this.container.removeEventListener('keydown', this.handleKeydown);
+      this.container.removeEventListener('focusin', this.handleInteraction);
+    }
+  }
+}
+
+// Global Interaction Detection
+['scroll', 'touchstart', 'click'].forEach(evt => {
+  window.addEventListener(evt, () => {
+    if (!document.body.classList.contains('user-interacted')) {
+      document.body.classList.add('user-interacted');
+    }
+  }, { passive: true, once: true });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Text Splitting
   initSplitText();
@@ -33,9 +168,9 @@ function initVideoHover() {
     if (!video) return;
 
     card.addEventListener('mouseenter', () => {
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     });
-    
+
     card.addEventListener('mouseleave', () => {
       video.pause();
     });
@@ -504,7 +639,7 @@ function initGlobalFooter() {
       document.body.appendChild(footerEl);
     }
   }
-  
+
   footerEl.innerHTML = footerContent;
 }
 
@@ -584,6 +719,8 @@ function initHeroSlideshow() {
   let isFirstSlide = true;
 
   // Make the hero image clickable to skip to next image
+
+
   if (wrapper) {
     wrapper.style.cursor = 'pointer';
     wrapper.addEventListener('click', () => {
@@ -812,7 +949,7 @@ function applyIntrinsicRatio(video) {
   if (!video) return;
   const container = document.getElementById('videoModalContainer');
   if (!container) return;
-  
+
   if (video.readyState >= 1 && video.videoWidth && video.videoHeight) {
     const ratio = video.videoWidth / video.videoHeight;
     container.style.setProperty('--dynamic-ratio', ratio);
@@ -909,22 +1046,9 @@ function initVideoModal() {
                 </div>
               </div>
 
-              <div class="time-display">
-                <span id="currentTime">0:00</span>
-                <span class="time-separator">/</span>
-                <span id="durationTime">0:00</span>
-              </div>
+
             </div>
 
-            <div class="controls-right">
-              <button class="control-btn speed-toggle" id="speedBtn">1.0x</button>
-              <button class="control-btn" id="fullscreenBtn" aria-label="Toggle Fullscreen">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
-                    fill="white" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -936,7 +1060,7 @@ function initVideoModal() {
   const mv = document.getElementById('modalVideo');
   const closeBtn = document.getElementById('videoModalClose');
   const bg = document.getElementById('videoModalBg');
-  
+
   const playBtn = document.getElementById('minimalPlayBtn') || document.getElementById('playBtn');
   const timeline = document.getElementById('minimalTimeline') || document.getElementById('timelineContainer');
   const progress = document.getElementById('minimalProgress') || document.getElementById('timelineProgress');
@@ -945,30 +1069,63 @@ function initVideoModal() {
   const prevBtn = document.getElementById('playlistPrevBtn');
   const nextBtn = document.getElementById('playlistNextBtn');
 
+  const interactives = [
+    prevBtn, nextBtn, closeBtn,
+    document.getElementById('minimalPlayBtn') || document.getElementById('playBtn'),
+    document.getElementById('volumeBtn'),
+    document.querySelector('.volume-track')
+  ].filter(Boolean);
+
+  if (window.currentReelControlsManager) {
+    window.currentReelControlsManager.destroy();
+  }
+  const modalContainer = document.getElementById('videoModalContainer');
+  window.currentReelControlsManager = new ReelControlsManager(modalContainer, interactives);
+  window.currentReelControlsManager.transitionTo('Opening');
+
+
+  // Hook into video play/pause
+  const allModalVids = document.querySelectorAll('.carousel-video-item video');
+  allModalVids.forEach(v => {
+    v.addEventListener('play', () => window.currentReelControlsManager?.transitionTo('Playing'));
+    v.addEventListener('playing', () => window.currentReelControlsManager?.transitionTo('Playing'));
+    v.addEventListener('pause', () => window.currentReelControlsManager?.transitionTo('Paused'));
+    v.addEventListener('waiting', () => window.currentReelControlsManager?.transitionTo('Buffering'));
+    v.addEventListener('seeking', () => window.currentReelControlsManager?.transitionTo('Seeking'));
+    v.addEventListener('seeked', () => window.currentReelControlsManager?.transitionTo(v.paused ? 'Paused' : 'Playing'));
+    v.addEventListener('ended', () => window.currentReelControlsManager?.transitionTo('Ended'));
+    v.addEventListener('error', () => window.currentReelControlsManager?.transitionTo('Error'));
+  });
+
+
   if (!modal || !mv || !closeBtn || !bg) return;
 
-    function closeModal() {
+  function closeModal() {
+    if (window.currentReelControlsManager) {
+      window.currentReelControlsManager.destroy();
+      window.currentReelControlsManager = null;
+    }
     modal.classList.remove('active');
-    
+
     modal.querySelectorAll('.carousel-video-item video').forEach(v => {
       v.pause();
       v.removeAttribute('src');
       v.load();
     });
-    
+
     if (document.getElementById('modalVideo')) {
       const mv = document.getElementById('modalVideo');
       mv.pause();
       mv.removeAttribute('src');
       mv.load();
     }
-    
+
     document.body.style.overflow = '';
     const container = document.getElementById('videoModalContainer');
     if (container) {
       container.style.removeProperty('--dynamic-ratio');
     }
-    
+
     const errorPlaceholder = document.getElementById('videoErrorPlaceholder');
     if (errorPlaceholder) errorPlaceholder.style.display = 'none';
   }
@@ -978,43 +1135,43 @@ function initVideoModal() {
   function playNext() {
     if (currentPlaylist.length <= 1 || isSliding) return;
     const track = document.getElementById('videoCarouselTrack');
-    
+
     if (track) {
       isSliding = true;
       track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
       track.classList.add('sliding-next');
-      
+
       const oldNext = track.querySelector('.next');
       if (oldNext) {
         const nextVid = oldNext.querySelector('video');
-        if (nextVid) nextVid.play().catch(() => {});
+        if (nextVid) nextVid.play().catch(() => { });
       }
-      
+
       setTimeout(() => {
         track.style.transition = 'none';
         const items = track.querySelectorAll('.carousel-video-item');
         items.forEach(item => item.style.transition = 'none');
-        
+
         track.classList.remove('sliding-next');
-        
+
         const oldPrev = track.querySelector('.prev');
         const oldActive = track.querySelector('.active');
-        
+
         if (oldPrev) oldPrev.className = 'carousel-video-item next';
         if (oldActive) oldActive.className = 'carousel-video-item prev';
-                if (oldNext) {
+        if (oldNext) {
           oldNext.className = 'carousel-video-item active';
           const newActiveVid = oldNext.querySelector('video');
           if (newActiveVid) applyIntrinsicRatio(newActiveVid);
         }
-        
+
         currentVideoIndex = (currentVideoIndex + 1) % currentPlaylist.length;
-        
+
         if (oldActive) {
           const outgoingVideo = oldActive.querySelector('video');
           if (outgoingVideo) outgoingVideo.pause();
         }
-        
+
         if (oldPrev) {
           const newNextVideo = oldPrev.querySelector('video');
           if (newNextVideo) {
@@ -1023,7 +1180,7 @@ function initVideoModal() {
             newNextVideo.src = appendHash(currentPlaylist[nextIdx]);
           }
         }
-        
+
         void track.offsetWidth;
         items.forEach(item => item.style.transition = '');
         isSliding = false;
@@ -1037,43 +1194,43 @@ function initVideoModal() {
   function playPrev() {
     if (currentPlaylist.length <= 1 || isSliding) return;
     const track = document.getElementById('videoCarouselTrack');
-    
+
     if (track) {
       isSliding = true;
       track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
       track.classList.add('sliding-prev');
-      
+
       const oldPrev = track.querySelector('.prev');
       if (oldPrev) {
         const prevVid = oldPrev.querySelector('video');
-        if (prevVid) prevVid.play().catch(() => {});
+        if (prevVid) prevVid.play().catch(() => { });
       }
-      
+
       setTimeout(() => {
         track.style.transition = 'none';
         const items = track.querySelectorAll('.carousel-video-item');
         items.forEach(item => item.style.transition = 'none');
-        
+
         track.classList.remove('sliding-prev');
-        
+
         const oldActive = track.querySelector('.active');
         const oldNext = track.querySelector('.next');
-        
-                if (oldPrev) {
+
+        if (oldPrev) {
           oldPrev.className = 'carousel-video-item active';
           const newActiveVid = oldPrev.querySelector('video');
           if (newActiveVid) applyIntrinsicRatio(newActiveVid);
         }
         if (oldActive) oldActive.className = 'carousel-video-item next';
         if (oldNext) oldNext.className = 'carousel-video-item prev';
-        
+
         currentVideoIndex = (currentVideoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
-        
+
         if (oldActive) {
           const outgoingVideo = oldActive.querySelector('video');
           if (outgoingVideo) outgoingVideo.pause();
         }
-        
+
         if (oldNext) {
           const newPrevVideo = oldNext.querySelector('video');
           if (newPrevVideo) {
@@ -1082,7 +1239,7 @@ function initVideoModal() {
             newPrevVideo.src = appendHash(currentPlaylist[prevIdx]);
           }
         }
-        
+
         void track.offsetWidth;
         items.forEach(item => item.style.transition = '');
         isSliding = false;
@@ -1113,10 +1270,66 @@ function initVideoModal() {
     });
   }
 
+
+  // Volume Controls Logic
+  const volumeBtn = document.getElementById('volumeBtn');
+  const volumeTrack = document.querySelector('.volume-track');
+  const volumeBar = document.getElementById('volumeBar');
+
+  if (volumeBtn) {
+    volumeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const activeVideo = modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo');
+      if (!activeVideo) return;
+      activeVideo.muted = !activeVideo.muted;
+
+      const vHigh = volumeBtn.querySelector('.volume-high');
+      const vMuted = volumeBtn.querySelector('.volume-muted');
+
+      if (activeVideo.muted || activeVideo.volume === 0) {
+        if (vHigh) vHigh.style.display = 'none';
+        if (vMuted) vMuted.style.display = 'block';
+        if (volumeBar) volumeBar.style.width = '0%';
+      } else {
+        if (vHigh) vHigh.style.display = 'block';
+        if (vMuted) vMuted.style.display = 'none';
+        if (volumeBar) volumeBar.style.width = (activeVideo.volume * 100) + '%';
+      }
+    });
+  }
+
+  if (volumeTrack) {
+    volumeTrack.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const activeVideo = modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo');
+      if (!activeVideo) return;
+
+      const rect = volumeTrack.getBoundingClientRect();
+      let pos = (e.clientX - rect.left) / rect.width;
+      pos = Math.max(0, Math.min(1, pos));
+
+      activeVideo.volume = pos;
+      activeVideo.muted = pos === 0;
+
+      const vHigh = volumeBtn.querySelector('.volume-high');
+      const vMuted = volumeBtn.querySelector('.volume-muted');
+      if (activeVideo.muted) {
+        if (vHigh) vHigh.style.display = 'none';
+        if (vMuted) vMuted.style.display = 'block';
+      } else {
+        if (vHigh) vHigh.style.display = 'block';
+        if (vMuted) vMuted.style.display = 'none';
+      }
+
+      if (volumeBar) volumeBar.style.width = (pos * 100) + '%';
+    });
+  }
+
+
   if (wrapper) {
     const allModalVideos = modal.querySelectorAll('.carousel-video-item video');
     const vidsToBind = allModalVideos.length > 0 ? Array.from(allModalVideos) : [document.getElementById('modalVideo')].filter(Boolean);
-    
+
     vidsToBind.forEach(vid => {
       vid.addEventListener('play', (e) => {
         if (e.target.parentElement && e.target.parentElement.classList.contains('carousel-video-item') && !e.target.parentElement.classList.contains('active')) return;
@@ -1148,12 +1361,37 @@ function initVideoModal() {
           }
         }
       });
-      vid.addEventListener('timeupdate', (e) => {
-        if (e.target.parentElement && e.target.parentElement.classList.contains('carousel-video-item') && !e.target.parentElement.classList.contains('active')) return;
-        if (progress && e.target.duration) {
-          const p = (e.target.currentTime / e.target.duration) * 100;
+      const updateTimeUI = (video) => {
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationTimeEl = document.getElementById('durationTime');
+        const d = video.duration;
+        const c = video.currentTime;
+
+        if (progress && !isNaN(d) && d > 0 && d !== Infinity) {
+          const p = (c / d) * 100;
           progress.style.width = p + '%';
         }
+
+        if (currentTimeEl && durationTimeEl) {
+          const formatTime = (time) => {
+            if (isNaN(time) || time === Infinity) return '0:00';
+            const mins = Math.floor(time / 60);
+            const secs = Math.floor(time % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+          };
+          currentTimeEl.textContent = formatTime(c);
+          durationTimeEl.textContent = formatTime(d);
+        }
+      };
+
+      vid.addEventListener('loadedmetadata', (e) => {
+        if (e.target.parentElement && e.target.parentElement.classList.contains('carousel-video-item') && !e.target.parentElement.classList.contains('active')) return;
+        updateTimeUI(e.target);
+      });
+
+      vid.addEventListener('timeupdate', (e) => {
+        if (e.target.parentElement && e.target.parentElement.classList.contains('carousel-video-item') && !e.target.parentElement.classList.contains('active')) return;
+        updateTimeUI(e.target);
       });
     });
 
@@ -1196,7 +1434,7 @@ function buildPlaylist() {
 }
 
 // Global openModal function
-window.openModal = function(src, isAnimating = false) {
+window.openModal = function (src, isAnimating = false) {
   const modal = document.getElementById('videoModal');
   const mv = modal ? modal.querySelector('.carousel-video-item.active video') || document.getElementById('modalVideo') : null;
   const mvPrev = modal ? modal.querySelector('.carousel-video-item.prev video') : null;
@@ -1206,9 +1444,9 @@ window.openModal = function(src, isAnimating = false) {
   const errorPlaceholder = document.getElementById('videoErrorPlaceholder');
   if (errorPlaceholder) errorPlaceholder.style.display = 'none';
 
-    // Apply intrinsic ratio on metadata load
+  // Apply intrinsic ratio on metadata load
   applyIntrinsicRatio(mv);
-  
+
   mv.addEventListener('error', () => {
     if (errorPlaceholder) errorPlaceholder.style.display = 'flex';
   }, { once: true });
@@ -1218,12 +1456,12 @@ window.openModal = function(src, isAnimating = false) {
     const idx = currentPlaylist.indexOf(src);
     if (idx !== -1) {
       currentVideoIndex = idx;
-      
+
       const prevIdx = (currentVideoIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
       const nextIdx = (currentVideoIndex + 1) % currentPlaylist.length;
-      
+
       const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
-      
+
       if (mvPrev) {
         mvPrev.src = appendHash(currentPlaylist[prevIdx]);
         mvPrev.load();
@@ -1237,7 +1475,7 @@ window.openModal = function(src, isAnimating = false) {
 
   const appendHash = (url) => url.includes('#t=') ? url : url + '#t=0.5';
   mv.src = appendHash(src);
-  
+
   if (!isAnimating) {
     mv.load();
     modal.classList.add('active');
