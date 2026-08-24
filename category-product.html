@@ -276,7 +276,7 @@
         <div class="detail-grid layout-reels" id="videosGrid" style="display: none;">
 
           <!-- Video 1 -->
-          <div class="detail-card" data-video-src="videos/product/Video-244.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-244.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-244.mp4#t=0.5" playsinline
               data-src="videos/product/Video-244.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -287,7 +287,7 @@
           </div>
 
           <!-- Video 2 -->
-          <div class="detail-card" data-video-src="videos/product/Video-250.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-250.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-250.mp4#t=0.5" playsinline
               data-src="videos/product/Video-250.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -298,7 +298,7 @@
           </div>
 
           <!-- Video 3 -->
-          <div class="detail-card" data-video-src="videos/product/Video-315.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-315.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-315.mp4#t=0.5" playsinline
               data-src="videos/product/Video-315.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -309,7 +309,7 @@
           </div>
 
           <!-- Video 4 -->
-          <div class="detail-card" data-video-src="videos/product/Video-348.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-348.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-348.mp4#t=0.5" playsinline
               data-src="videos/product/Video-348.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -321,7 +321,7 @@
 
 
           <!-- Video 5 -->
-          <div class="detail-card" data-video-src="videos/product/Video-516.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-516.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-516.mp4#t=0.5" playsinline
               data-src="videos/product/Video-516.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -332,7 +332,7 @@
           </div>
 
           <!-- Video 6 -->
-          <div class="detail-card" data-video-src="videos/product/Video-551.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-551.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-551.mp4#t=0.5" playsinline
               data-src="videos/product/Video-551.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -343,7 +343,7 @@
           </div>
 
           <!-- Video 7 -->
-          <div class="detail-card" data-video-src="videos/product/Video-735.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-735.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-735.mp4#t=0.5" playsinline
               data-src="videos/product/Video-735.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -354,7 +354,7 @@
           </div>
 
           <!-- Video 8 -->
-          <div class="detail-card" data-video-src="videos/product/Video-757.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-757.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-757.mp4#t=0.5" playsinline
               data-src="videos/product/Video-757.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -365,7 +365,7 @@
           </div>
 
           <!-- Video 9 -->
-          <div class="detail-card" data-video-src="videos/product/Video-793.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-793.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-793.mp4#t=0.5" playsinline
               data-src="videos/product/Video-793.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -376,7 +376,7 @@
           </div>
 
           <!-- Video 10 -->
-          <div class="detail-card" data-video-src="videos/product/Video-88.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/product/Video-88.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/product/Video-88.mp4#t=0.5" playsinline
               data-src="videos/product/Video-88.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -451,16 +451,6 @@
 
       });
 
-      // Video hover play/pause logic
-      document.querySelectorAll('#videosGrid .detail-card').forEach(card => {
-        const video = card.querySelector('video');
-        if (!video) return;
-
-        const src = card.getAttribute("data-video-src");
-
-        card.addEventListener("mouseenter", () => {
-          video.play().catch(() => { });
-        });
 
         card.addEventListener("mouseleave", () => {
           video.pause();

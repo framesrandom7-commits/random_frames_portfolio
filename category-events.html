@@ -284,7 +284,7 @@
         <div class="detail-grid layout-reels" id="videosGrid" style="display: none;">
 
           <!-- Video 1 -->
-          <div class="detail-card" data-video-src="videos/events/Video-251.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/events/Video-251.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/events/Video-251.mp4#t=0.5" playsinline
               data-src="videos/events/Video-251.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -295,7 +295,7 @@
           </div>
 
           <!-- Video 2 -->
-          <div class="detail-card" data-video-src="videos/events/reel-2.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/events/reel-2.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/events/reel-2.mp4#t=0.5" playsinline
               data-src="videos/events/reel-2.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -368,16 +368,6 @@
         );
       });
 
-      // Video hover play/pause logic
-      document.querySelectorAll('#videosGrid .detail-card').forEach(card => {
-        const video = card.querySelector('video');
-        if (!video) return;
-
-        const src = card.getAttribute("data-video-src");
-
-        card.addEventListener("mouseenter", () => {
-          video.play().catch(() => { });
-        });
 
         card.addEventListener("mouseleave", () => {
           video.pause();

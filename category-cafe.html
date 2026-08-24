@@ -203,7 +203,7 @@
         <div class="detail-grid layout-reels" id="videosGrid">
 
           <!-- Video 1 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-43.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-43.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-43.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-43.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -214,7 +214,7 @@
           </div>
 
           <!-- Video 2 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-26.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-26.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-26.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-26.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -225,7 +225,7 @@
           </div>
 
           <!-- Video 3 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-59.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-59.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-59.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-59.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -236,7 +236,7 @@
           </div>
 
           <!-- Video 4 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-106.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-106.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-106.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-106.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -247,7 +247,7 @@
           </div>
 
           <!-- Video 5 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-305.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-305.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-305.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-305.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -258,7 +258,7 @@
           </div>
 
           <!-- Video 6 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-606.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-606.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-606.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-606.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -269,7 +269,7 @@
           </div>
 
           <!-- Video 7 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-707.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-707.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-707.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-707.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -280,7 +280,7 @@
           </div>
 
           <!-- Video 8 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-788.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-788.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-788.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-788.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -291,7 +291,7 @@
           </div>
 
           <!-- Video 9 -->
-          <div class="detail-card" data-video-src="videos/cafe/Video-896.mp4">
+          <div class="detail-card" data-reel-trigger data-video-src="videos/cafe/Video-896.mp4">
             <video class="detail-card-media" muted loop preload="metadata" src="videos/cafe/Video-896.mp4#t=0.5" playsinline
               data-src="videos/cafe/Video-896.mp4"></video>
             <div class="detail-card-play">▶</div>
@@ -330,16 +330,6 @@
 
       document.querySelectorAll('.detail-card').forEach(c => observer.observe(c));
 
-      // Video hover play/pause logic
-      document.querySelectorAll('.detail-card').forEach(card => {
-        const video = card.querySelector('video');
-        if (!video) return;
-
-        const src = card.getAttribute("data-video-src");
-
-        card.addEventListener("mouseenter", () => {
-          video.play().catch(() => { });
-        });
 
         card.addEventListener("mouseleave", () => {
           video.pause();
