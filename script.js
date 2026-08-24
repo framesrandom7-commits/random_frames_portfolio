@@ -245,17 +245,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initVideoHover() {
-  document.querySelectorAll('.detail-card, .video-card').forEach(card => {
-    const video = card.querySelector('video');
-    if (!video) return;
+  document.addEventListener('mouseover', (e) => {
+    const trigger = e.target.closest('[data-reel-trigger]');
+    if (!trigger) return;
+    if (e.relatedTarget && trigger.contains(e.relatedTarget)) return; // Internal move
+    const video = trigger.querySelector('video');
+    if (video) video.play().catch(() => {});
+  });
 
-    card.addEventListener('mouseenter', () => {
-      video.play().catch(() => { });
-    });
+  document.addEventListener('mouseout', (e) => {
+    const trigger = e.target.closest('[data-reel-trigger]');
+    if (!trigger) return;
+    if (e.relatedTarget && trigger.contains(e.relatedTarget)) return; // Internal move
+    const video = trigger.querySelector('video');
+    if (video) video.pause();
+  });
 
-    card.addEventListener('mouseleave', () => {
-      video.pause();
-    });
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-reel-trigger]');
+    if (!trigger) return;
+    
+    // Stop propagation if necessary, though it might conflict with other document click listeners if used aggressively.
+    let src = trigger.getAttribute('data-video-src');
+    if (!src) {
+      const vid = trigger.querySelector('video');
+      if (vid) src = vid.getAttribute('src');
+    }
+    if (src && window.openModal) {
+      window.openModal(src);
+    }
   });
 }
 
@@ -991,7 +1009,17 @@ function initProjectModal() {
       message: req
     };
 
-    // 1. Send Background Email via Web3Forms
+    // 1. Send Lead to Random Frames OS (Local)
+    fetch('http://localhost:3000/api/webhooks/web3forms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    }).catch(e => console.log('OS Webhook Error:', e));
+
+    // 2. Send Background Email via Web3Forms
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: {
@@ -1477,11 +1505,11 @@ function initVideoModal() {
 
 function buildPlaylist() {
   currentPlaylist = [];
-  document.querySelectorAll('.detail-card, .bento-item, .reel-item').forEach((card) => {
+  document.querySelectorAll('[data-reel-trigger]').forEach((trigger) => {
     // Collect src from data attribute, or directly from video if missing
-    let src = card.getAttribute("data-video-src");
+    let src = trigger.getAttribute("data-video-src");
     if (!src) {
-      const vid = card.querySelector('video');
+      const vid = trigger.querySelector('video');
       if (vid) src = vid.getAttribute('src');
     }
     if (src && !currentPlaylist.includes(src)) {
