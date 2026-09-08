@@ -861,90 +861,68 @@ function initHeroSlideshow() {
     });
   }
 
-  // ── Initialize: hide all slides, show only first ─────────────────────────
-  slides.forEach((slide, idx) => {
-    gsap.set(slide, { opacity: idx === 0 ? 1 : 0 });
-    slide.style.zIndex = idx === 0 ? 2 : 1;
-    if (idx === 0) slide.classList.add('active');
-  });
+  // ── 3D Coverflow Update Logic ─────────────────────────
+  function update3DCarousel() {
+    const total = slides.length;
+    slides.forEach((slide, idx) => {
+      slide.classList.remove('pos-active', 'pos-prev-1', 'pos-next-1', 'pos-prev-2', 'pos-next-2', 'pos-hidden');
+      
+      let diff = (idx - currentIdx) % total;
+      if (diff < 0) diff += total;
 
-  // Boot first state
+      if (diff === 0) {
+        slide.classList.add('pos-active');
+      } else if (diff === 1) {
+        slide.classList.add('pos-next-1');
+      } else if (diff === 2) {
+        slide.classList.add('pos-next-2');
+      } else if (diff === total - 1) {
+        slide.classList.add('pos-prev-1');
+      } else if (diff === total - 2) {
+        slide.classList.add('pos-prev-2');
+      } else {
+        slide.classList.add('pos-hidden');
+      }
+    });
+
+    // Update the dynamic glowing caption
+    const captionEl = document.getElementById('carouselCaption');
+    if (captionEl && slides[currentIdx]) {
+      // Small fade effect for text transition
+      captionEl.style.opacity = 0;
+      setTimeout(() => {
+        captionEl.innerText = slides[currentIdx].dataset.caption || '';
+        captionEl.style.opacity = 1;
+      }, 300);
+    }
+  }
+
+  // ── Initialize ─────────────────────────
+  update3DCarousel();
   updateStrips(0, 2000);
-  startKenBurns(slides[0].querySelector('.hero-slide-img'));
 
-  // Start the wrapper float after a short delay (let entry animation finish first)
-  setTimeout(() => {
-    if (wrapper) wrapper.style.animationPlayState = 'running';
-  }, 1800);
+  if (wrapper) {
+    wrapper.style.animationPlayState = 'running';
+  }
 
   // ── Transition ───────────────────────────────────────────────────────────
   function goToNext() {
     if (isAnimating) return;
     isAnimating = true;
 
-    const prevIdx = currentIdx;
-    const nextIdx = (currentIdx + 1) % slides.length;
-    const prevSlide = slides[prevIdx];
-    const nextSlide = slides[nextIdx];
-    const prevImg = prevSlide.querySelector('.hero-slide-img');
-    const nextImg = nextSlide.querySelector('.hero-slide-img');
-    const nextSrc = nextSlide.querySelector('.hero-slide-img')?.src;
+    currentIdx = (currentIdx + 1) % slides.length;
+    
+    // Sync echo ghost if exists
+    const nextSrc = slides[currentIdx].querySelector('.hero-slide-img')?.src;
+    if (echoImg && nextSrc) echoImg.src = nextSrc;
 
-    if (kenBurnsTween) kenBurnsTween.kill();
-
-    // Flash viewfinder corners
-    corners.forEach(c => {
-      c.classList.add('flash');
-      setTimeout(() => c.classList.remove('flash'), 600);
-    });
-
-    // Stack: next on top, prev below
-    nextSlide.style.zIndex = 3;
-    prevSlide.style.zIndex = 2;
-    gsap.set(nextSlide, { opacity: 0 });
-    gsap.set(nextImg, { scale: 1.06, x: 10 });
-
-    // ── Phase A: Shutter close (blades sweep right) ──
-    const shutterIn = gsap.timeline();
-    shutterIn.to(blades, {
-      scaleX: 1,
-      duration: 0.22,
-      stagger: 0.04,
-      ease: 'power2.in',
-      transformOrigin: 'left'
-    });
-
-    shutterIn.call(() => {
-      // While shutter is closed: swap the visible slide + update echo
-      prevSlide.classList.remove('active');
-      prevSlide.style.zIndex = 1;
-      gsap.set(prevSlide, { opacity: 0 });
-      gsap.set(prevImg, { scale: 1.0, x: 0 });
-
-      nextSlide.classList.add('active');
-      nextSlide.style.zIndex = 2;
-      gsap.set(nextSlide, { opacity: 1 });
-
-      // Sync echo ghost to the new image
-      if (echoImg && nextSrc) echoImg.src = nextSrc;
-    });
-
-    // ── Phase B: Shutter open (blades retract left) ──
-    shutterIn.to(blades, {
-      scaleX: 0,
-      duration: 0.28,
-      stagger: { each: 0.04, from: 'end' },
-      ease: 'power2.out',
-      transformOrigin: 'right',
-      onComplete: () => {
-        currentIdx = nextIdx;
+    update3DCarousel();
+    
+    setTimeout(() => {
         isAnimating = false;
-
-        updateStrips(nextIdx);
-        startKenBurns(nextImg);
+        updateStrips(currentIdx);
         scheduleDwell();
-      }
-    });
+    }, 850);
   }
 
   function scheduleDwell() {
@@ -1571,3 +1549,50 @@ window.openModal = function (src, isAnimating = false) {
   }
   mv.play().catch(() => { });
 };
+
+// Dynamic Nav Active State (ScrollSpy)
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('main, section');
+  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+
+  if (sections.length === 0 || navLinks.length === 0) return;
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-30% 0px -60% 0px',
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        if (!id) return;
+        
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href && (href === `#${id}` || href.endsWith(`#${id}`))) {
+            link.classList.add('active');
+          } else if (href && href.includes('#')) {
+            // Only remove active from hash links, to preserve page-based links if any
+            link.classList.remove('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => {
+    if (section.getAttribute('id')) {
+      observer.observe(section);
+    }
+  });
+  
+  // Also handle click to immediately set active state before scroll finishes
+  navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      navLinks.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+});

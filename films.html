@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Frames | Commercial Video for Brands</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="Random Frames crafts premium commercial video content for startups and emerging brands — turning your vision into cinematic stories that build trust, drive attention, and grow your business.">
+  <meta name="author" content="Random Frames">
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Glassmorphism Theme Reskin -->
+  <link rel="stylesheet" href="theme-exploration.css">
+</head>
+
+<body class="home-page">
+
+  <!-- Custom Premium Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
+
+  <!-- Cinematic Preloader Curtain -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <span class="preloader-text" id="preloaderText">RANDOM FRAMES</span>
+      <div class="preloader-progress-bar">
+        <div class="preloader-progress" id="preloaderProgress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Wrapper -->
+  <div class="app-container">
+
+    <!-- Navigation Bar -->
+    <header class="navbar" id="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon-rf header-rf">
+          <span class="r">R</span><span class="f">F</span>
+        </div>
+        <span class="logo-text">Random Frames</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html#home" class="nav-link">Home</a>
+        <a href="index.html#portfolio" class="nav-link active">Our Work</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="index.html#about" class="nav-link">About</a>
+      </nav>
+
+      <div class="nav-social-icons">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+          class="nav-social-link" aria-label="Instagram" title="Follow on Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <circle cx="12" cy="12" r="4.5" />
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <!-- WhatsApp -->
+        <a href="https://wa.me/918073080077?text=Hi%2C%0A%0AWelcome%20to%20Random%20Frames%20by%20Savan!%0A%0AThank%20you%20for%20reaching%20out.%0A%0AWe%20specialize%20in%3A%0A%0A-%20Caf%C3%A9%20%26%20Hospitality%0A-%20Real%20Estate%0A-%20Event%20Coverage%0A-%20Brand%20%26%20Product%20Shoots%0A%0ATell%20us%20about%20your%20project%2C%20and%20we'll%20help%20you%20choose%20the%20right%20service."
+          target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="WhatsApp"
+          title="Chat on WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-links">
+        <a href="index.html#home" class="mobile-nav-link">Home</a>
+        <a href="index.html#portfolio" class="mobile-nav-link active">Our Work</a>
+        <a href="index.html#services" class="mobile-nav-link">Services</a>
+        <a href="index.html#about" class="mobile-nav-link">About</a>
+        <div class="mobile-social-icons">
+          <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+            class="mobile-social-link" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4.5" />
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            </svg>
+            <span>Instagram</span>
+          </a>
+          <a href="https://wa.me/918073080077?text=Hi%2C%0A%0AWelcome%20to%20Random%20Frames%20by%20Savan!%0A%0AThank%20you%20for%20reaching%20out.%0A%0AWe%20specialize%20in%3A%0A%0A-%20Caf%C3%A9%20%26%20Hospitality%0A-%20Real%20Estate%0A-%20Event%20Coverage%0A-%20Brand%20%26%20Product%20Shoots%0A%0ATell%20us%20about%20your%20project%2C%20and%20we'll%20help%20you%20choose%20the%20right%20service."
+            target="_blank" rel="noopener noreferrer" class="mobile-social-link" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.103 1.522 5.83L.057 23.535a.5.5 0 0 0 .608.608l5.706-1.465A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.865 0-3.638-.498-5.168-1.37l-.37-.213-3.834.985.999-3.737-.228-.384A9.964 9.964 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Films Page Wrapper -->
+    <main class="films-page-wrapper">
+      
+      <!-- Brands Directory View -->
+      <section class="films-directory" id="filmsDirectory">
+        
+        <h1 class="films-page-title">FILMS</h1>
+        <p class="films-page-subtitle">Select a brand to view their complete video portfolio.</p>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+          <a href="index.html" class="back-to-directory-btn" style="display: inline-block; text-decoration: none;">
+            &larr; Back to Home
+          </a>
+        </div>
+
+        <!-- CAFE Category -->
+        <div class="films-category">
+          <h2 class="films-category-title">CAFE</h2>
+          <div class="brand-grid" id="brandGridCafe">
+            <!-- Brand cards injected here via JS -->
+          </div>
+        </div>
+
+        <!-- EVENTS Category -->
+        <div class="films-category">
+          <h2 class="films-category-title">EVENTS</h2>
+          <div class="brand-grid" id="brandGridEvents">
+            <!-- Brand cards injected here via JS -->
+          </div>
+        </div>
+
+        <!-- PRODUCT Category -->
+        <div class="films-category">
+          <h2 class="films-category-title">PRODUCT</h2>
+          <div class="brand-grid" id="brandGridProduct">
+            <!-- Brand cards injected here via JS -->
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+          <a href="index.html" class="back-to-directory-btn" style="display: inline-block; text-decoration: none;">
+            &larr; Back to Home
+          </a>
+        </div>
+
+      </section>
+
+      <!-- Brand Expanded Grid View (Hidden by default) -->
+      <section class="films-expanded-view" id="filmsExpandedView" style="display: none;">
+        <button class="back-to-directory-btn" id="backToDirectoryBtn">
+          &larr; Back to Films
+        </button>
+        <h2 class="expanded-brand-title" id="expandedBrandTitle">BRAND NAME</h2>
+        <div class="video-grid" id="videoGridContainer">
+          <!-- Video items injected here via JS -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Fullscreen Video Player Overlay -->
+    <div class="fullscreen-player" id="fullscreenPlayer">
+      <button class="close-player-btn" id="closePlayerBtn">✕</button>
+      <video class="fullscreen-video" id="fullscreenVideo" controls playsinline></video>
+    </div>
+
+  <footer class="main-footer">
+    <div class="footer-left scroll-reveal">
+      <a href="index.html" class="footer-logo-wrap">
+        <div class="logo-icon-rf footer-rf">
+          <span class="r">R</span><span class="f">F</span>
+        </div>
+        <span class="footer-logo">RANDOM FRAMES</span>
+      </a>
+    </div>
+    <div class="footer-middle scroll-reveal delay-1">
+      <p class="footer-tagline">Thoughtfully Crafted Imagery & Films for Modern Brands, Spaces & Experiences</p>
+    </div>
+    <div class="footer-right scroll-reveal delay-2">
+      <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
+        class="footer-social-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <circle cx="12" cy="12" r="4.5" />
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+        </svg>
+        <span>@random.frames.7</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+  <script src="films.js"></script>
+</body>
+
+</html>
