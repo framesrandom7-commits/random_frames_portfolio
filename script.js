@@ -698,25 +698,237 @@ document.addEventListener('DOMContentLoaded', () => {
   initCatCardGlow();
   initProjectModal();
   initScrollReveal();
+  initStillsInteractions();
 });
+
+/* =====================================================
+   STILLS PORTFOLIO LOGIC & GALLERY LIGHTBOX
+   ===================================================== */
+const stillsGalleries = {
+  product: [
+    "images/STILLS/Product/Product 1.png",
+    "images/STILLS/Product/Product 2.jpg",
+    "images/STILLS/Product/Product 3.jpg",
+    "images/STILLS/Product/Product 4.jpg"
+  ],
+  food: [
+    "images/STILLS/Food/Food 1.jpg",
+    "images/STILLS/Food/Food 2.jpg",
+    "images/STILLS/Food/Food 3.jpg",
+    "images/STILLS/Food/Food 4.jpg"
+  ],
+  "something-brewing": [
+    "images/STILLS/Event/Someting Brewing/IMG_6684 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_6687 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_6691 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_6702 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_6704 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_6730 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_6732 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_6744 2.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9074 copy.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9120.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9137.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9141.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9159.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9162.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9169.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9234.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9268.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9337.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9380.jpg",
+    "images/STILLS/Event/Someting Brewing/IMG_9452.jpg"
+  ],
+  "bengaluru-brews": [
+    "images/STILLS/Event/Bangaluru Brews/IMG_4397.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5423 2.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5426.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5428.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5463.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5488 2.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5494.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5496 2.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5511.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5532.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5556.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5568 2.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5590.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5715.jpg",
+    "images/STILLS/Event/Bangaluru Brews/IMG_5762.jpg"
+  ]
+};
+
+function initStillsInteractions() {
+  const isStillsPage = window.location.pathname.includes('stills.html');
+  if (!isStillsPage) return;
+
+  const expandedBrands = document.getElementById('stillsExpandedBrands');
+  const expandedGrid = document.getElementById('stillsExpandedGrid');
+  const gridTitle = document.getElementById('stillsGridTitle');
+  const gridContent = document.getElementById('stillsGridContent');
+  const gridBackBtn = document.getElementById('stillsGridBackBtn');
+  const brandCards = document.querySelectorAll('.stills-brand-card');
+
+  // Lightbox Elements
+  const lightbox = document.getElementById('imageLightbox');
+  const bg = document.getElementById('imageLightboxBg');
+  const closeBtn = document.getElementById('imageLightboxClose');
+  const imgEl = document.getElementById('lightboxImage');
+  const nextBtn = document.getElementById('imageLightboxNext');
+  const prevBtn = document.getElementById('imageLightboxPrev');
+  const counterEl = document.getElementById('imageLightboxCounter');
+
+  let currentGallery = [];
+  let currentIndex = 0;
+
+  if (!lightbox || !imgEl || !closeBtn) return;
+
+  let currentGridBackTarget = null; // 'home' or 'brands'
+
+  // Parse URL to know what to show
+  const urlParams = new URLSearchParams(window.location.search);
+  const category = urlParams.get('category');
+
+  if (category === 'events') {
+    if (expandedBrands) expandedBrands.style.display = 'block';
+  } else if (category === 'product' || category === 'food') {
+    if (stillsGalleries[category]) {
+      renderGrid(category.toUpperCase(), stillsGalleries[category], 'home');
+    }
+  }
+
+  if (gridBackBtn) {
+    gridBackBtn.addEventListener('click', () => {
+      if (currentGridBackTarget === 'brands') {
+        if (expandedGrid) expandedGrid.style.display = 'none';
+        if (expandedBrands) expandedBrands.style.display = 'block';
+      } else {
+        // Go back while preserving scroll history
+        if (document.referrer.includes(window.location.host)) {
+          window.history.back();
+        } else {
+          window.location.href = 'index.html#portfolio';
+        }
+      }
+    });
+  }
+
+  brandCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const brand = card.getAttribute('data-brand');
+      const brandName = card.querySelector('.brand-card-title').textContent;
+      if (stillsGalleries[brand]) {
+        renderGrid(brandName, stillsGalleries[brand], 'brands');
+      }
+    });
+  });
+
+  // RENDER GRID LOGIC
+  function renderGrid(title, imagesArray, backTarget) {
+    currentGridBackTarget = backTarget;
+    if (gridTitle) gridTitle.textContent = title;
+    
+    if (gridContent) {
+      gridContent.innerHTML = ''; // Clear previous
+      
+      // If there are only a few images (like Product/Food), use a standard flex/grid instead of 3-column masonry
+      if (imagesArray.length <= 4) {
+        gridContent.classList.remove('masonry-grid');
+        gridContent.style.display = 'grid';
+        gridContent.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+      } else {
+        gridContent.classList.add('masonry-grid');
+        gridContent.style.display = ''; // revert to CSS default (block for columns)
+        gridContent.style.gridTemplateColumns = '';
+      }
+
+      imagesArray.forEach((src, idx) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'stills-image-wrap';
+        wrap.addEventListener('click', () => {
+          openGallery(imagesArray, idx);
+        });
+        
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'stills-image';
+        img.alt = `${title} - Photo ${idx+1}`;
+        
+        wrap.appendChild(img);
+        gridContent.appendChild(wrap);
+      });
+    }
+
+    if (expandedBrands) expandedBrands.style.display = 'none';
+    if (expandedGrid) expandedGrid.style.display = 'block';
+  }
+
+  // GALLERY LIGHTBOX LOGIC
+  function openGallery(imagesArray, startIndex = 0) {
+    if (!imagesArray || imagesArray.length === 0) return;
+    currentGallery = imagesArray;
+    currentIndex = startIndex;
+    updateLightboxImage();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateLightboxImage() {
+    imgEl.src = currentGallery[currentIndex];
+    if (counterEl) {
+      counterEl.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+    }
+  }
+
+  function nextImage() {
+    if (currentGallery.length === 0) return;
+    currentIndex = (currentIndex + 1) % currentGallery.length;
+    updateLightboxImage();
+  }
+
+  function prevImage() {
+    if (currentGallery.length === 0) return;
+    currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+    updateLightboxImage();
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (!lightbox.classList.contains('active')) imgEl.src = '';
+    }, 400);
+  }
+
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+  closeBtn.addEventListener('click', closeLightbox);
+  if (bg) bg.addEventListener('click', closeLightbox);
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+  });
+}
 
 /* 7.4 Global Footer Injection */
 function initGlobalFooter() {
   const footerContent = `
-    <div class="footer-left scroll-reveal">
-      <a href="index.html" class="footer-logo-wrap">
-        <div class="logo-icon-rf footer-rf">
-          <span class="r">R</span><span class="f">F</span>
-        </div>
-        <span class="footer-logo">RANDOM FRAMES</span>
-      </a>
-    </div>
-    <div class="footer-middle scroll-reveal delay-1">
-      <p class="footer-tagline">Thoughtfully Crafted Imagery & Films for Modern Brands, Spaces & Experiences</p>
-    </div>
-    <div class="footer-right scroll-reveal delay-2">
-      <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer"
-        class="footer-social-link">
+      <div class="footer-left">
+        <a href="index.html" class="footer-logo-wrap">
+          <div class="logo-icon-rf footer-rf">
+            <span class="r">R</span><span class="f">F</span>
+          </div>
+          <span class="footer-logo">RANDOM FRAMES</span>
+        </a>
+      </div>
+      <div class="footer-middle">
+        <p class="footer-tagline">Thoughtfully Crafted Imagery & Films for Modern Brands, Spaces & Experiences</p>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.instagram.com/random.frames.7/" target="_blank" rel="noopener noreferrer" class="footer-social-link">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
           stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />

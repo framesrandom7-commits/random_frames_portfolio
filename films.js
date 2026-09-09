@@ -106,6 +106,8 @@ const filmsData = {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  let savedDirectoryScrollPosition = 0;
+
   const filmsDirectory = document.getElementById('filmsDirectory');
   const filmsExpandedView = document.getElementById('filmsExpandedView');
   const expandedBrandTitle = document.getElementById('expandedBrandTitle');
@@ -195,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Open Expanded Grid View for a Brand
   function openExpandedView(brandName, videoSrcs) {
+    savedDirectoryScrollPosition = window.scrollY || document.documentElement.scrollTop;
     filmsDirectory.style.display = 'none';
     filmsExpandedView.style.display = 'block';
     expandedBrandTitle.textContent = brandName;
@@ -238,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backToDirectoryBtn.addEventListener('click', () => {
       filmsExpandedView.style.display = 'none';
       filmsDirectory.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: savedDirectoryScrollPosition, behavior: 'instant' });
     });
   }
 
